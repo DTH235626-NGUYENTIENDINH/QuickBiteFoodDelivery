@@ -1,180 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#FFFDF0">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/layoutTaskbarContainer"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/txtTimKiemHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tìm kiếm"
+                android:textColor="#FFB300"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtMonYeuThichHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Món Bạn Yêu Thích"
+                android:textColor="#3E2723"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTimKiemHeader" />
+
+            <ImageView
+                android:id="@+id/btnCart"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/img_circle"
+                app:tint="#880E0F" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintBottom_toBottomOf="@id/btnCart"
+                app:layout_constraintEnd_toEndOf="@id/btnCart"
+                app:layout_constraintStart_toStartOf="@id/btnCart"
+                app:layout_constraintTop_toTopOf="@id/btnCart"
+                app:srcCompat="@mipmap/ic_shoppingcart"
+                app:tint="#FFB300" />
+
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_search"
+                android:drawableEnd="@android:drawable/ic_menu_search"
+                android:hint="Tìm kiếm món ăn của bạn"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintTop_toBottomOf="@id/txtMonYeuThichHeader" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@id/edtSearch">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btnCategoryAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/o1"
+                        android:backgroundTint="#FFB300"
+                        android:paddingHorizontal="25dp"
+                        android:paddingVertical="8dp"
+                        android:text="All"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnCategoryPizza"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/o2"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:text="Pizza"
+                        android:textColor="#BDBDBD" />
+
+                    <TextView
+                        android:id="@+id/btnCategoryHamburger"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/o1"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:text="Hamburger"
+                        android:textColor="#BDBDBD" />
+
+                    <TextView
+                        android:id="@+id/btnCategoryDrinks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/o3"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:text="Drinks"
+                        android:textColor="#BDBDBD" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/gridLayoutFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:columnCount="2"
+                app:layout_constraintTop_toBottomOf="@id/horizontalScrollView">
+
+                <!-- === NHÓM PIZZA (Tag: PIZZA) === -->
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="PIZZA" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgPz1" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_pz1" />
+                    <TextView android:id="@+id/txtPz1Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Pizza Phô Mai" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgPz1" />
+                    <TextView android:id="@+id/txtPz1Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="45.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz1Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz1Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="PIZZA" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgPz3" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_pz3" />
+                    <TextView android:id="@+id/txtPz3Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Pizza Nấm" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgPz3" />
+                    <TextView android:id="@+id/txtPz3Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="45.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz3Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz3Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="PIZZA" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgPz4" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_pz4" />
+                    <TextView android:id="@+id/txtPz4Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Pizza Táo Mật Ong" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgPz4" />
+                    <TextView android:id="@+id/txtPz4Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="40.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz4Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz4Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="PIZZA" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgPz6" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_pz6" />
+                    <TextView android:id="@+id/txtPz6Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Pizza Xúc Xích Ý" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgPz6" />
+                    <TextView android:id="@+id/txtPz6Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="45.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz6Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPz6Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- === NHÓM HAMBURGER (Tag: HAMBURGER) === -->
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="HAMBURGER" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgHbg3" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_hbg3" />
+                    <TextView android:id="@+id/txtHbg3Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Hamburger Tôm" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgHbg3" />
+                    <TextView android:id="@+id/txtHbg3Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="28.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtHbg3Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtHbg3Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="HAMBURGER" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgHbg4" android:layout_width="100dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_hbg4" />
+                    <TextView android:id="@+id/txtHbg4Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Hamburger Heo" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgHbg4" />
+                    <TextView android:id="@+id/txtHbg4Price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="30.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtHbg4Name" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtHbg4Price" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- === NHÓM DRINKS (Tag: DRINK) === -->
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="DRINK" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/imgPepsiMain" android:layout_width="80dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_pepsi" />
+                    <TextView android:id="@+id/txtPepsiMainName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Pepsi" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/imgPepsiMain" />
+                    <TextView android:id="@+id/txtPepsiMainPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPepsiMainName" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txtPepsiMainPrice" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:background="@drawable/o_vuong" android:padding="12dp" android:tag="DRINK" app:layout_columnWeight="1">
+                    <ImageView android:id="@+id/img7UpMain" android:layout_width="80dp" android:layout_height="100dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/img_7up" />
+                    <TextView android:id="@+id/txt7UpMainName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="7Up" android:textColor="#000000" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/img7UpMain" />
+                    <TextView android:id="@+id/txt7UpMainPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15.000 vnđ" android:textColor="#000000" android:textSize="12sp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txt7UpMainName" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Thêm vào" android:textColor="#FFB300" android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/txt7UpMainPrice" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.gridlayout.widget.GridLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutTaskbarContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/background"
-        tools:ignore="MissingConstraints" />
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTaskbar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/o_vuong"
+            android:elevation="8dp">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/background"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnFood"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_home"
+                app:tint="#880E0F" />
 
-    <ImageView
-        android:id="@+id/imageView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="501dp"
-        tools:ignore="MissingConstraints"/>
+            <ImageView
+                android:id="@+id/btnFood"
+                android:layout_width="36dp"
+                android:layout_height="31dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnNotification"
+                app:layout_constraintStart_toEndOf="@+id/btnHome"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_food"
+                app:tint="#FFB300" />
 
-    <ImageView
-        android:id="@+id/imageView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="216dp"
-        tools:layout_editor_absoluteY="501dp"
-        tools:ignore="MissingConstraints" />/>
+            <ImageView
+                android:id="@+id/btnNotification"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnUser"
+                app:layout_constraintStart_toEndOf="@+id/btnFood"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_1_notification"
+                app:tint="#880E0F" />
 
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="337dp"
-        tools:ignore="MissingConstraints" />
+            <ImageView
+                android:id="@+id/btnUser"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnNotification"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_1_user"
+                app:tint="#880E0F" />
 
-    <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="216dp"
-        tools:layout_editor_absoluteY="337dp"
-        tools:ignore="MissingConstraints" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/background2"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="659dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="82dp"
-        android:layout_height="29dp"
-        app:srcCompat="@mipmap/ic_1_notification"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="202dp"
-        tools:layout_editor_absoluteY="671dp" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_1_Home"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="671dp" />
-
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_food"
-        app:tint="#FFB300"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="671dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_1_user"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="283dp"
-        tools:layout_editor_absoluteY="671dp" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/background_search"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="110dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="46dp"
-        android:layout_height="42dp"
-        app:srcCompat="@mipmap/img_circle"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="327dp"
-        tools:layout_editor_absoluteY="38dp" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="22dp"
-        android:layout_height="21dp"
-        app:srcCompat="@mipmap/ic_ShoppingCart"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="338dp"
-        tools:layout_editor_absoluteY="48dp" />
-
-    <androidx.constraintlayout.helper.widget.Layer android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
-    <TextView
-        android:id="@+id/txtTimKiem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tìm kiếm"
-        android:textColor="#FFB300"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="45dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtMonYeuThich"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tìm kiếm món bạn yêu thích"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="80dp"
-        android:textColor="#3E2723"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="173dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/o_vuong"
-        tools:layout_editor_absoluteX="216dp"
-        tools:layout_editor_absoluteY="173dp"
-        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
