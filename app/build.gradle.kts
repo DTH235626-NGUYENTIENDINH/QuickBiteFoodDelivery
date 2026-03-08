@@ -4,9 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.quickbuyfooddelivery"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.quickbuyfooddelivery"
@@ -38,7 +36,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("androidx.gridlayout:gridlayout:1.0.0")
+    implementation(libs.gridlayout)
+    implementation(libs.flexbox)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

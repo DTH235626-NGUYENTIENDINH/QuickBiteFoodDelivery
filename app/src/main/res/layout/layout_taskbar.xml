@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutTaskbar"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/o_vuong"
+    android:elevation="8dp"
+    app:alignItems="center"
+    app:flexDirection="row"
+    app:justifyContent="space_around">
+
+    <ImageView
+        android:id="@+id/btnHome"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/ic_home"
+        app:tint="#880E0F" />
+
+    <ImageView
+        android:id="@+id/btnFood"
+        android:layout_width="36dp"
+        android:layout_height="31dp"
+        app:srcCompat="@mipmap/ic_food"
+        app:tint="#880E0F" />
+
+    <ImageView
+        android:id="@+id/btnNotification"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/ic_1_notification"
+        app:tint="#880E0F" />
+
+    <ImageView
+        android:id="@+id/btnUser"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@mipmap/ic_1_user"
+        app:tint="#880E0F" />
+
+</com.google.android.flexbox.FlexboxLayout>

@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="nâu">#3E2723</color>
+    <color name="vàng">#FFB300</color>
+    <color name="đỏ">#8B1E1E</color>
+    <color name="xanh_duong">#006FFF</color>
+    <color name="xanh_la">#2ABB14</color>
+    <color name="xám">#A6A6A6</color>
+    <color name="background">#FFF8E1</color>
 </resources>
