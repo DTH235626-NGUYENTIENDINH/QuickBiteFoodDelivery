@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
 
         setupTaskbar(R.id.btnFood);
 
-        View mainView = findViewById(R.id.main);
+        View mainView = findViewById(R.id.Wishlist);
         if (mainView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

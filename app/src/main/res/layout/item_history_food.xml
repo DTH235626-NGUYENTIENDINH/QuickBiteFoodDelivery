@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgbg"
+        android:layout_width="349dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_backgrounditemhistory" />
+
+    <ImageView
+        android:id="@+id/imgDoAn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/imgbg"
+        app:layout_constraintTop_toTopOf="@+id/imgbg"
+        app:srcCompat="@drawable/img_hbg3" />
+
+    <TextView
+        android:id="@+id/tvTenMon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Hamburger Cá"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imgDoAn"
+        app:layout_constraintTop_toBottomOf="@+id/tvTrangThai" />
+
+    <TextView
+        android:id="@+id/tvTrangThai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="Hoàn thành"
+        android:textSize="16dp"
+        android:textAlignment="textEnd"
+        android:textColor="#FFA600"
+        app:layout_constraintEnd_toEndOf="@+id/imgbg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSoLuong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="16dp"
+        android:text="x1"
+        android:textAlignment="textEnd"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgbg"
+        app:layout_constraintTop_toBottomOf="@+id/tvTrangThai" />
+    <TextView
+        android:id="@+id/tvDonGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="16dp"
+        android:text="21.000đ"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/imgbg"
+        app:layout_constraintTop_toBottomOf="@+id/tvSoLuong" />
+    <TextView
+        android:id="@+id/tvTongTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="16dp"
+        android:text="Tổng số tiền (1 món): 21.000đ"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/imgbg"
+        app:layout_constraintTop_toBottomOf="@+id/tvDonGia" />
+
+    <Button
+        android:id="@+id/btnMuaLai"
+        android:layout_width="73dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:text="Mua lại"
+        android:textColor="#FFA600"
+        android:textSize="12dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgbg"
+        app:layout_constraintTop_toBottomOf="@+id/tvTongTien"
+        app:strokeColor="#FFA600"
+        app:strokeWidth="1dp"
+        tools:ignore="TouchTargetSizeCheck,TextSizeCheck" />
+
+    <Button
+        android:id="@+id/btnHuyDon"
+        android:layout_width="73dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:text="Mua lại"
+        android:textColor="#8E8E93"
+        android:textSize="12dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnMuaLai"
+        app:layout_constraintTop_toBottomOf="@+id/tvTongTien"
+        app:strokeColor="#8E8E93"
+        app:strokeWidth="1dp"
+        tools:ignore="TouchTargetSizeCheck,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/tvNgayMua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19/3/2026"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@+id/imgbg"
+        app:layout_constraintTop_toTopOf="@+id/btnHuyDon"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
