@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "FoodDeliveryDB.db";
+    private static final String DB_NAME = "FoodDeliveryDB2.db";
     private static final int DB_VERSION = 1;
 
     public DataBaseHelper(Context context) {
