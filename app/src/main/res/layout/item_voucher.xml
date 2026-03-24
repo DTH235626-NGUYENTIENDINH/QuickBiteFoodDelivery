@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
+
+    <ImageView
+        android:id="@+id/imgBackgroundVoucher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background_itemvoucher" />
+
+    <ImageView
+        android:id="@+id/imgVoucherLogo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/imgBackgroundVoucher"
+        app:layout_constraintStart_toStartOf="@id/imgBackgroundVoucher"
+        app:layout_constraintTop_toTopOf="@id/imgBackgroundVoucher"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/txtVoucherTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="Có Giảm 25% Nè!"
+        android:textColor="@color/vàng"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/imgBackgroundVoucher"
+        app:layout_constraintStart_toEndOf="@id/imgVoucherLogo"
+        app:layout_constraintTop_toTopOf="@id/imgBackgroundVoucher" />
+
+    <TextView
+        android:id="@+id/txtVoucherDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="DEAL CỰC CHILL-HAMBURGER CÁ GIẢM 25%"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/txtVoucherTitle"
+        app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+        app:layout_constraintTop_toBottomOf="@id/txtVoucherTitle" />
+
+    <TextView
+        android:id="@+id/txtVoucherExpiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:text="HSD: 22/04/2026"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/imgBackgroundVoucher"
+        app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+        app:layout_constraintTop_toBottomOf="@id/txtVoucherDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

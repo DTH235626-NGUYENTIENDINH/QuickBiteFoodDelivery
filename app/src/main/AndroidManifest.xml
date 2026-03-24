@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,16 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickBuyFoodDelivery">
-
+        <activity
+            android:name=".secondary_profile_activity.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".secondary_profile_activity.WishlistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".secondary_profile_activity.PasswordChangeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".secondary_profile_activity.UserInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".secondary_profile_activity.SettingActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -45,15 +62,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
-
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />
-
+        <activity android:name=".NotificationOrderActivity" android:exported="false" />
+        <activity android:name=".VoucherActivity" android:exported="false" />
     </application>
 
 </manifest>
