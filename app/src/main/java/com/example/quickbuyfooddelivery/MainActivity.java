@@ -2,6 +2,7 @@ package com.example.quickbuyfooddelivery;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_food);
