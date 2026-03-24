@@ -3,6 +3,7 @@ package com.example.quickbuyfooddelivery;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -85,6 +86,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
     static class FoodViewHolder extends RecyclerView.ViewHolder {
         ImageView imgFood;
+        Button btnThemVao;
         TextView txtFoodName, txtFoodPrice;
 
         public FoodViewHolder(@NonNull View itemView) {
@@ -92,6 +94,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             imgFood = itemView.findViewById(R.id.imgFood);
             txtFoodName = itemView.findViewById(R.id.txtFoodName);
             txtFoodPrice = itemView.findViewById(R.id.txtFoodPrice);
+            btnThemVao = itemView.findViewById(R.id.btnThemVao);
         }
     }
 }
