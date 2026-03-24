@@ -3,7 +3,6 @@ package com.example.quickbuyfooddelivery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,68 +11,61 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterVerifyActivity extends AppCompatActivity {
 
-    Button btnVerify;
-    TextView tvBackToLogin, tvSendcode;
-    EditText edtEmailVerify, edtVerificationCode;
-    string sentCode = "";
+    private Button btnVerify;
+    private TextView tvBackToLogin, tvSendCode;
+    private EditText edtEmailVerify, edtVerificationCode;
+    private String sentCode = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_verify);
 
+        // Ánh xạ View
         btnVerify = findViewById(R.id.btnVerify);
         tvBackToLogin = findViewById(R.id.tvBackToLogin);
-        tvSendcode = findViewById(R.id.tvSendcode);
-        edtEmailVerify = findViewById(R.id.edtEmail);
-        edtVerificationCode = findViewById(R.id.edtCode);
+        tvSendCode = findViewById(R.id.tvSendcode);
+        edtEmailVerify = findViewById(R.id.edtEmailVerify);
+        edtVerificationCode = findViewById(R.id.edtVerificationCode);
 
-        tvSendcode.setOnClickListener(v -> sendCode());
-        btnVerify.setonClickListener(v -> verifyCode());
-          
-        tvBackToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        // Sự kiện Click
+        if (tvSendCode != null) {
+            tvSendCode.setOnClickListener(v -> sendCode());
+        }
+        if (btnVerify != null) {
+            btnVerify.setOnClickListener(v -> verifyCode());
+        }
+        if (tvBackToLogin != null) {
+            tvBackToLogin.setOnClickListener(v -> finish());
+        }
     }
-        
+
     private void sendCode() {
         String email = edtEmailVerify.getText().toString().trim();
+
         if (TextUtils.isEmpty(email)) {
-                Toast.makeText(this, "Vui lòng nhập email" );
-                return;
-            }
+            Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Vui lòng nhập email hợp lệ" );
-                return;
-            }
-        tvSendcode.setEnabled(false);
-        tvSendcode.setText("Đang gửi...");
+            Toast.makeText(this, "Vui lòng nhập email hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        String code = EmailSender.generateCode();
-        EmailSender.sendVerificationEmail(email, code, new EmailSender.EmailCallback() {
-            @Override
-            public void onSuccess(String generatedCode) {
-            sentCode = generatedCode; // lưu lại mã để xác minh
-            tvSendCode.setText("Gửi lại");
-            tvSendCode.setEnabled(true);
-            Toast.makeText(RegisterVerifyActivity.this,
-                "Đã gửi mã đến " + email, Toast.LENGTH_SHORT).show();
-            }
+        tvSendCode.setEnabled(false);
+        tvSendCode.setText("Đang gửi...");
 
-            @Override
-            public void onFailure(String error) {
-            tvSendCode.setText("Gửi mã");
-            tvSendCode.setEnabled(true);
-            Toast.makeText(RegisterVerifyActivity.this,
-                "Gửi thất bại: " + error, Toast.LENGTH_LONG).show();
-            }
-            });
+        // Giả lập gửi mã
+        sentCode = "123456"; 
+        Toast.makeText(this, "Mã xác minh là: " + sentCode, Toast.LENGTH_LONG).show();
+        tvSendCode.setEnabled(true);
+        tvSendCode.setText("Gửi lại");
     }
+
     private void verifyCode() {
-        String code = edtVerificationCode.getText().toString().trim();
         String email = edtEmailVerify.getText().toString().trim();
+        String code = edtVerificationCode.getText().toString().trim();
 
         if (sentCode.isEmpty()) {
             Toast.makeText(this, "Vui lòng gửi mã trước!", Toast.LENGTH_SHORT).show();
@@ -88,7 +80,7 @@ public class RegisterVerifyActivity extends AppCompatActivity {
             return;
         }
 
-        // Mã đúng → chuyển sang đăng ký
+        // Chuyển sang màn hình đăng ký chính thức
         Toast.makeText(this, "Xác minh thành công!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, RegisterActivity.class);
         intent.putExtra("email", email);

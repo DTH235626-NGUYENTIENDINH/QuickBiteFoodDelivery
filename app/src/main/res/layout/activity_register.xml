@@ -4,15 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_auth_header" />
+    <!-- Header common -->
+    <include
+        android:id="@+id/layoutAuthHeader"
+        layout="@layout/layout_auth_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.42"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Rounded Form -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutWhiteForm"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/bg_rounded_top"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.65">
+        app:layout_constraintTop_toBottomOf="@id/layoutAuthHeader">
 
         <TextView
             android:id="@+id/tvRegisterTitle"
@@ -27,12 +35,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Tên đăng nhập -->
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:background="@null"
             android:hint="Tên đăng nhập"
             android:paddingBottom="8dp"
@@ -40,6 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvRegisterTitle" />
 
         <View
+            android:id="@+id/lineUsername"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#A6A6A6"
@@ -47,20 +57,22 @@
             app:layout_constraintStart_toStartOf="@+id/edtUsername"
             app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
 
+        <!-- Mật khẩu -->
         <EditText
             android:id="@+id/edtRegPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="24dp"
             android:background="@null"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
             android:paddingBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
+            app:layout_constraintTop_toBottomOf="@+id/lineUsername" />
 
         <View
+            android:id="@+id/lineRegPassword"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#A6A6A6"
@@ -68,20 +80,22 @@
             app:layout_constraintStart_toStartOf="@+id/edtRegPassword"
             app:layout_constraintTop_toBottomOf="@+id/edtRegPassword" />
 
+        <!-- Xác nhận mật khẩu -->
         <EditText
             android:id="@+id/edtRegConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="24dp"
             android:background="@null"
             android:hint="Xác nhận mật khẩu"
             android:inputType="textPassword"
             android:paddingBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/edtRegPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/lineRegPassword" />
 
         <View
+            android:id="@+id/lineRegConfirmPassword"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#A6A6A6"
@@ -89,21 +103,23 @@
             app:layout_constraintStart_toStartOf="@+id/edtRegConfirmPassword"
             app:layout_constraintTop_toBottomOf="@+id/edtRegConfirmPassword" />
 
+        <!-- Nút Đăng ký -->
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             android:backgroundTint="#4E342E"
             android:text="Đăng ký"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:cornerRadius="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/edtRegConfirmPassword" />
+            app:cornerRadius="28dp"
+            app:layout_constraintTop_toBottomOf="@+id/lineRegConfirmPassword" />
 
+        <!-- Đã có tài khoản? Đăng nhập -->
         <TextView
             android:id="@+id/tvBackToLogin"
             android:layout_width="wrap_content"
@@ -111,6 +127,7 @@
             android:layout_marginBottom="32dp"
             android:text="Đã có tài khoản? Đăng nhập"
             android:textColor="#555555"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
