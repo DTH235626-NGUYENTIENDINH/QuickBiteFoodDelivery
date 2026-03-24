@@ -2,6 +2,7 @@ package com.example.quickbuyfooddelivery;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -15,11 +16,14 @@ public class MainActivity extends BaseActivity {
     private FlexboxLayout flexboxLayoutFood;
     private TextView btnAll, btnPizza, btnHamburger, btnDrinks;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
 
         setupTaskbar(R.id.btnFood);
 
