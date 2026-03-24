@@ -5,6 +5,7 @@
     android:id="@+id/Wishlist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".secondary_profile_activity.WishlistActivity">
 
     <LinearLayout
@@ -17,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@color/đỏ">
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -28,7 +30,8 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imgArrowBack" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/imgArrowBack"
@@ -47,14 +50,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvWishlist"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:clipToPadding="false"
-                android:padding="8dp"
+                android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

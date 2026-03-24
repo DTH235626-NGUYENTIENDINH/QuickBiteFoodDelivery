@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.HistoryActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.SettingActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.UserInformationActivity;
+import com.example.quickbuyfooddelivery.secondary_profile_activity.WishlistActivity;
 
 public class ProfileActivity extends BaseActivity {
     private ConstraintLayout layoutCaiDat;
@@ -43,6 +44,15 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+        // Mở danh sách món yêu thích
+        View layoutDanhSachMonYeuThich = findViewById(R.id.layoutDanhSachMonYeuThich);
+        layoutDanhSachMonYeuThich.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
                 startActivity(intent);
             }
         });

@@ -3,65 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="120dp"
+    android:background="#ffffff"
+    android:layout_marginBottom="3dp"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="157dp"
-        android:layout_height="200dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/o_vuong"
-        android:padding="12dp"
-        android:tag="PIZZA"
+    <ImageView
+        android:id="@+id/imgAnhMon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_flexBasisPercent="42%">
+        app:srcCompat="@drawable/img_hbg2" />
 
-        <ImageView
-            android:id="@+id/imgMon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/img_pz1" />
+    <TextView
+        android:id="@+id/tvTenMon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:text="Hamburger cá"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imgAnhMon"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvTenMon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Pizza Phô Mai"
-            android:textColor="@color/nâu"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgMon" />
+    <TextView
+        android:id="@+id/tvDonGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="28.000 vnđ"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTenMon" />
 
-        <TextView
-            android:id="@+id/tvGia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="45.000 vnđ"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTenMon" />
+    <ImageButton
+        android:id="@+id/imgbtnAdd"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:contentDescription="Thêm món ăn"
+        android:outlineAmbientShadowColor="@color/vàng"
+        android:outlineSpotShadowColor="@color/vàng"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/ic_add"
+        tools:ignore="TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tvThem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Thêm vào"
-            android:textColor="@color/vàng"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvGia" />
+    <CheckBox
+        android:id="@+id/chkWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/custom_wishlist_checkbox"
+        android:checked="true"
+        app:buttonTint="@null"
+        android:contentDescription="Xoá món ăn yêu thích"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtnAdd"
+        app:layout_constraintStart_toStartOf="@+id/imgbtnAdd"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
