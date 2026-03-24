@@ -47,6 +47,8 @@
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />
+        <activity android:name=".NotificationOrderActivity" android:exported="false" />
+        <activity android:name=".VoucherActivity" android:exported="false" />
     </application>
 
 </manifest>
