@@ -1,10 +1,11 @@
 package com.example.quickbuyfooddelivery;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.core.content.ContextCompat;
@@ -13,15 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
+public class FoodActivity extends BaseActivity {
     private FoodAdapter foodAdapter;
     private TextView btnAll, btnPizza, btnHamburger, btnDrinks;
     private EditText edtSearch;
     private ImageButton btnSearchAction;
+    private ImageView imgeGiohang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_food);
@@ -31,6 +32,7 @@ public class MainActivity extends BaseActivity {
         setupRecyclerView();
         setupCategoryButtons();
         setupSearch();
+        setupCartButton();
         updateCategoryUI("ALL");
     }
 
@@ -41,6 +43,16 @@ public class MainActivity extends BaseActivity {
         btnDrinks = findViewById(R.id.btnCategoryDrinks);
         edtSearch = findViewById(R.id.edtSearch);
         btnSearchAction = findViewById(R.id.btnSearchAction);
+        imgeGiohang = findViewById(R.id.imgeGiohang);
+    }
+
+    private void setupCartButton() {
+        if (imgeGiohang != null) {
+            imgeGiohang.setOnClickListener(v -> {
+                Intent intent = new Intent(FoodActivity.this, ShoppingCartActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void setupRecyclerView() {

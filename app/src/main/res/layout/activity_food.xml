@@ -45,8 +45,13 @@
         app:tint="@color/đỏ" />
 
     <ImageView
+        android:id="@+id/imgeGiohang"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:elevation="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@id/btnCart"
         app:layout_constraintEnd_toEndOf="@id/btnCart"
         app:layout_constraintStart_toStartOf="@id/btnCart"

@@ -41,8 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (btnFood != null) {
             btnFood.setOnClickListener(v -> {
-                if (!(this instanceof MainActivity)) {
-                    startActivity(new Intent(this, MainActivity.class));
+                if (!(this instanceof FoodActivity)) {
+                    startActivity(new Intent(this, FoodActivity.class));
                     finish();
                 }
             });

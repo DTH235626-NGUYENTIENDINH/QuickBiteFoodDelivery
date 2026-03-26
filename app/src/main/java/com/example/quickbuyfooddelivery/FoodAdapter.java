@@ -1,11 +1,13 @@
 package com.example.quickbuyfooddelivery;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.text.Normalizer;
@@ -28,7 +30,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         filteredList.clear();
         if (category.equals("ALL")) {
             filteredList.addAll(foodList);
-            Collections.shuffle(filteredList); 
+            Collections.shuffle(filteredList);
         } else {
             for (Food food : foodList) {
                 if (food.getCategory().equals(category)) {
@@ -44,8 +46,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(nfdNormalizedString).replaceAll("")
-                .replace('đ', 'd')
-                .replace('Đ', 'D');
+                .replace('đ', 'd').replace('Đ', 'D');
     }
 
     public void search(String query) {
@@ -77,6 +78,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.txtFoodName.setText(food.getName());
         holder.txtFoodPrice.setText(food.getPrice());
         holder.imgFood.setImageResource(food.getImageResId());
+
+        holder.btnThemVao.setOnClickListener(v -> {
+            CartManager.addToCart(food);
+            Toast.makeText(v.getContext(), "Đã thêm " + food.getName() + " vào giỏ", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
