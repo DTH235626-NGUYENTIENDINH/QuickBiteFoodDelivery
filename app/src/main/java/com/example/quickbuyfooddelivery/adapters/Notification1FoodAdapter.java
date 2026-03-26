@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickbuyfooddelivery.R;
@@ -60,6 +61,19 @@ public class Notification1FoodAdapter extends RecyclerView.Adapter<Notification1
                 holder.btnExpand.setRotation(0); // Xoay mũi tên xuống
             }
         });
+        holder.layoutItem.setOnClickListener(v -> {
+            // Đảo ngược trạng thái đóng/mở
+            item.setExpanded(!item.isExpanded());
+
+            if (item.isExpanded()) {
+                holder.tvDetail.setMaxLines(Integer.MAX_VALUE); // Hiện đầy đủ chữ
+                holder.btnExpand.setRotation(180); // Xoay mũi tên lên
+            } else {
+                holder.tvDetail.setMaxLines(1); // Thu gọn lại thành ...
+                holder.btnExpand.setRotation(0); // Xoay mũi tên xuống
+            }
+        });
+
     }
     @Override
     public int getItemCount() {
@@ -72,6 +86,7 @@ public class Notification1FoodAdapter extends RecyclerView.Adapter<Notification1
         ImageView imgLogo;
         TextView tvTitle, tvDetail;
         ImageButton btnExpand;
+        ConstraintLayout layoutItem;
 
         public NotificationFoodViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +94,7 @@ public class Notification1FoodAdapter extends RecyclerView.Adapter<Notification1
             tvTitle = itemView.findViewById(R.id.tvTrangThaiItem);
             tvDetail = itemView.findViewById(R.id.tvChiTietItem);
             btnExpand = itemView.findViewById(R.id.btnExpand);
+            layoutItem = itemView.findViewById(R.id.item_notification_food);
         }
     }
 

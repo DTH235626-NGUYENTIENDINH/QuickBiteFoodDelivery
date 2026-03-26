@@ -6,82 +6,78 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <ImageView
-        android:id="@+id/imgBackground"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background" />
+        android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_arrowback"
-        app:tint="@color/nâu" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="113dp">
 
-    <TextView
-        android:id="@+id/txtHeaderTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="Khuyến Mãi"
-        android:textColor="@color/vàng"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"
-        app:layout_constraintStart_toEndOf="@id/btnBack"
-        app:layout_constraintTop_toTopOf="@id/btnBack" />
 
-    <ImageView
-        android:id="@+id/btnCartBackground"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="18dp"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnBack"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@mipmap/img_circle"
-        app:tint="@color/đỏ" />
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                app:layout_constraintBottom_toBottomOf="@+id/txtHeaderTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtHeaderTitle"
+                app:srcCompat="@mipmap/ic_arrowback"
+                app:tint="@color/nâu" />
 
-    <ImageButton
-        android:id="@+id/btnCart"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@id/btnCartBackground"
-        app:layout_constraintEnd_toEndOf="@id/btnCartBackground"
-        app:layout_constraintStart_toStartOf="@id/btnCartBackground"
-        app:layout_constraintTop_toTopOf="@id/btnCartBackground"
-        app:srcCompat="@mipmap/ic_shoppingcart"
-        app:tint="@color/vàng" />
+            <TextView
+                android:id="@+id/txtHeaderTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khuyến Mãi"
+                android:textColor="@color/vàng"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"
+                app:layout_constraintVertical_bias="0.641"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvVoucher"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutTaskbarContainer"
-        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+            <ImageView
+                android:id="@+id/btnCartBackground"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtHeaderTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtHeaderTitle"
+                app:srcCompat="@mipmap/img_circle"
+                app:tint="@color/đỏ" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutTaskbarContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+            <ImageButton
+                android:id="@+id/btnCart"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/btnCartBackground"
+                app:layout_constraintEnd_toEndOf="@+id/btnCartBackground"
+                app:layout_constraintStart_toStartOf="@+id/btnCartBackground"
+                app:layout_constraintTop_toTopOf="@+id/btnCartBackground"
+                app:srcCompat="@mipmap/ic_shoppingcart"
+                app:tint="@color/vàng" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/taskbar"
-            layout="@layout/layout_taskbar" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvVoucher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

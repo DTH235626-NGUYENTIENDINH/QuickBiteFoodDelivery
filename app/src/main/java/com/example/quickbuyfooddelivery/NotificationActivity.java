@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.quickbuyfooddelivery.adapters.Notification1FoodAdapter;
@@ -28,21 +29,24 @@ public class NotificationActivity extends BaseActivity {
                 "Đơn Pepsi-N11T02N2026_035021 đã huỷ gergre ghẻ h ehg ẻhg ẻth ẻt hẻ hử hư rh ew he ư fwe g fewf ewfeqfjukefqukfgqeofugfoqwfgofgfogo geqoig ogegroqegofrgqepofgeqi"));
         Notification1FoodAdapter adapter = new Notification1FoodAdapter(list);
         rcvCapNhatDonHang.setAdapter(adapter);
-        ImageButton btnKhuyenMai = findViewById(R.id.imgIconKhuyenMai);
-        ImageButton btnDonHang = findViewById(R.id.imgIconDonHang);
-        if (btnKhuyenMai != null)
-        {
-            btnKhuyenMai.setOnClickListener(v -> {
-                Intent intent = new Intent(NotificationActivity.this, VoucherActivity.class);
-                startActivity(intent);
-            });
-        }
-        if (btnDonHang != null)
-        {
-            btnDonHang.setOnClickListener(v -> {
-                Intent intent = new Intent(NotificationActivity.this, NotificationOrderActivity.class);
-                startActivity(intent);
-            });
-        }
+
+        ConstraintLayout layoutThongBaoKhuyenMai = findViewById(R.id.layoutThongBaoKhuyenMai);
+        ConstraintLayout layoutThongBaoDonHang = findViewById(R.id.layoutThongBaoDonHang);
+        ImageButton imageGioHang = findViewById(R.id.imageButton);
+
+        layoutThongBaoKhuyenMai.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationActivity.this, VoucherActivity.class);
+            startActivity(intent);
+        });
+
+        layoutThongBaoDonHang.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationActivity.this, NotificationOrderActivity.class);
+            startActivity(intent);
+        });
+
+        imageGioHang.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationActivity.this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
     }
 }

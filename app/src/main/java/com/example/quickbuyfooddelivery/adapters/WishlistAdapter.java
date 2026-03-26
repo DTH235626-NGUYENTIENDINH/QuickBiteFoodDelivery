@@ -24,7 +24,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public static class WishlistViewHolder extends RecyclerView.ViewHolder {
         ImageView imgDoAn;
         TextView tvTenMon, tvDonGia;
-
         ImageButton imgbtnAdd;
         CheckBox chkWishlist;
 
