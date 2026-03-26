@@ -49,7 +49,10 @@
         android:id="@+id/layoutThongBaoKhuyenMai"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <ImageButton
             android:id="@+id/imgIconKhuyenMai"
@@ -132,7 +135,10 @@
             android:id="@+id/layoutThongBaoDonHang"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <ImageButton
                 android:id="@+id/imgIconDonHang"

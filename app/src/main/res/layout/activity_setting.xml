@@ -107,7 +107,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutHoSo"
                         android:layout_width="match_parent"
-                        android:layout_height="44.6dp">
+                        android:layout_height="44.6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/tvHoSo"
@@ -182,7 +185,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutDoiMatKhau"
                         android:layout_width="match_parent"
-                        android:layout_height="44.6dp">
+                        android:layout_height="44.6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/tvDoiMatKhau"
@@ -249,7 +255,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutXoaTK"
                         android:layout_width="match_parent"
-                        android:layout_height="47.5dp">
+                        android:layout_height="47.5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/tvXoaTaiKhoan"

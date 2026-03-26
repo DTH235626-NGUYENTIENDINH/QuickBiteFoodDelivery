@@ -78,7 +78,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutProfile"
                         android:layout_width="match_parent"
-                        android:layout_height="44.6dp">
+                        android:layout_height="44.6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/img_chevron_right1"
@@ -115,7 +118,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutDanhSachMonYeuThich"
                         android:layout_width="match_parent"
-                        android:layout_height="44.6dp">
+                        android:layout_height="44.6dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/img_chevron_right2"
@@ -151,7 +157,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutLichSuMuaHang"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/img_chevron_right3"
@@ -206,7 +215,10 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="47.5dp">
+                        android:layout_height="47.5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/txtChichSachDatHang"
@@ -242,7 +254,10 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="47.5dp">
+                        android:layout_height="47.5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:id="@+id/txtChinhSachBaoMat"
@@ -289,6 +304,9 @@
                     android:id="@+id/layoutCaiDat"
                     android:layout_width="359dp"
                     android:layout_height="47dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="@+id/img_bgst"
                     app:layout_constraintEnd_toEndOf="@+id/img_bgst"
                     app:layout_constraintStart_toStartOf="@+id/img_bgst"
@@ -318,17 +336,21 @@
 
                 <Button
                     android:id="@+id/button"
-                    android:layout_width="150dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="359dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/đỏ"
-                    android:textColor="#ffffff"
                     android:text="Đăng xuất"
+                    android:textColor="@color/đỏ"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_bgst" />
+                    app:layout_constraintTop_toBottomOf="@+id/img_bgst"
+                    app:rippleColor="#32F43B2E"
+
+                    app:strokeColor="@color/đỏ"
+                    app:strokeWidth="2dp" />
 
                 <TextView
                     android:id="@+id/txtPhienBan"
