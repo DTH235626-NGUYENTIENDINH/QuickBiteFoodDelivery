@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".AccountManagementActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@color/đỏ">
+
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Admin "
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgadmin"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/ic_admin" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QUẢN LÝ TÀI KHOẢN"
+                    android:textColor="#3E2723"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgadmin"
+                    app:layout_constraintStart_toEndOf="@+id/imgadmin"
+                    app:layout_constraintTop_toTopOf="@+id/imgadmin" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="Danh sách tài khoản admin: "
+                    android:textColor="#8B1E1E"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="324dp"
+                    android:layout_height="225dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_shape"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7">
+
+                </ListView>
+
+                <ImageButton
+                    android:id="@+id/btnAdminAdd"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAdminEdit"
+                    app:layout_constraintTop_toTopOf="@+id/textView7"
+                    app:srcCompat="@mipmap/ic_add2"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/btnAdminEdit"
+                    android:layout_width="21dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAdminAdd"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAdminDelete"
+                    app:layout_constraintTop_toTopOf="@+id/btnAdminAdd"
+                    app:srcCompat="@mipmap/ic_edit"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/btnAdminDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAdminAdd"
+                    app:layout_constraintEnd_toEndOf="@+id/listView"
+                    app:layout_constraintTop_toTopOf="@+id/btnAdminAdd"
+                    app:srcCompat="@mipmap/ic_delete"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/textView77"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Danh sách tài khoản admin: "
+                    android:textColor="#8B1E1E"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ListView
+                    android:id="@+id/listView1"
+                    android:layout_width="324dp"
+                    android:layout_height="225dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_shape"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView77">
+
+                </ListView>
+
+                <ImageButton
+                    android:id="@+id/btnAdminAdd1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView77"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAdminEdit1"
+                    app:layout_constraintTop_toTopOf="@+id/textView77"
+                    app:srcCompat="@mipmap/ic_add2"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/btnAdminEdit1"
+                    android:layout_width="21dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAdminAdd1"
+                    app:layout_constraintEnd_toStartOf="@+id/btnAdminDelete1"
+                    app:layout_constraintTop_toTopOf="@+id/btnAdminAdd1"
+                    app:srcCompat="@mipmap/ic_edit"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/btnAdminDelete1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAdminAdd1"
+                    app:layout_constraintEnd_toEndOf="@+id/listView1"
+                    app:layout_constraintTop_toTopOf="@+id/btnAdminAdd1"
+                    app:srcCompat="@mipmap/ic_delete"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btnLuu"
+                    android:layout_width="225dp"
+                    android:layout_height="wrap_content"
+                    android:text="LƯU"
+                    android:backgroundTint="@color/vàng"
+                    android:textColor="#000000"
+                    app:cornerRadius="10dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
