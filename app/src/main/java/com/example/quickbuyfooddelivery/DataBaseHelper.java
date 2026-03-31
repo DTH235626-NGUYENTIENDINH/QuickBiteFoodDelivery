@@ -1,5 +1,7 @@
 package com.example.quickbuyfooddelivery;
 
+import java.util.List;
+import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -113,4 +115,204 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return -1;
     }
+
+    // Tổng doanh thu
+    public int getTotalRevenue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT SUM(total_amount) FROM food_order WHERE status='done'", null
+        );
+        if (cursor.moveToFirst()) {
+            int total = cursor.getInt(0);
+            cursor.close();
+            return total;
+        }
+        cursor.close();
+        return 0;
+    }
+
+    // Tổng đơn hàng
+    public int getTotalOrders() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT COUNT(*) FROM food_order", null
+        );
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            cursor.close();
+            return count;
+        }
+        cursor.close();
+        return 0;
+    }
+
+    // Tổng người dùng không tính admin
+    public int getTotalUsers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT COUNT(*) FROM users WHERE role = 0", null
+        );
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            cursor.close();
+            return count;
+        }
+        cursor.close();
+        return 0;
+    }
+
+    // Tổng món ăn đang bán
+    public int getTotalMenuItems() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT COUNT(*) FROM menu_item WHERE is_available = 1", null
+        );
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            cursor.close();
+            return count;
+        }
+        cursor.close();
+        return 0;
+
+    }
+    // Lấy tất cả món (cho admin)
+    public List<MenuItem> getAllMenuItemsAdmin() {
+        List<MenuItem> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT * FROM menu_item ORDER BY category", null
+        );
+        while (cursor.moveToNext()) {
+            MenuItem item    = new MenuItem();
+            item.itemId      = cursor.getInt(cursor.getColumnIndexOrThrow("item_id"));
+            item.itemName    = cursor.getString(cursor.getColumnIndexOrThrow("item_name"));
+            item.price       = cursor.getInt(cursor.getColumnIndexOrThrow("price"));
+            item.category    = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+            item.imageName   = cursor.getString(cursor.getColumnIndexOrThrow("image_name"));
+            item.description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+            item.isAvailable = cursor.getInt(cursor.getColumnIndexOrThrow("is_available"));
+            list.add(item);
+        }
+        cursor.close();
+        return list;
+    }
+
+    // Thêm món mới
+    public boolean addMenuItem(String name, int price, String category,
+                            String image, String desc, int available) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("item_name",    name);
+        values.put("price",        price);
+        values.put("category",     category);
+        values.put("image_name",   image);
+        values.put("description",  desc);
+        values.put("is_available", available);
+        long result = db.insert("menu_item", null, values);
+        return result != -1;
+    }
+
+    // Cập nhật món
+    public void updateMenuItem(int itemId, String name, int price, String category,
+                            String image, String desc, int available) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("item_name",    name);
+        values.put("price",        price);
+        values.put("category",     category);
+        values.put("image_name",   image);
+        values.put("description",  desc);
+        values.put("is_available", available);
+        db.update("menu_item", values, "item_id=?",
+            new String[]{String.valueOf(itemId)});
+    }
+
+    // Xóa món
+    public void deleteMenuItem(int itemId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("menu_item", "item_id=?",
+            new String[]{String.valueOf(itemId)});
+    }
+
+    // Lấy tất cả đơn hàng kèm username
+public List<FoodOrder> getAllOrders() {
+    List<FoodOrder> list = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor cursor = db.rawQuery(
+        "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
+        "f.status, f.order_datetime " +
+        "FROM food_order f " +
+        "LEFT JOIN users u ON f.user_id = u.user_id " +
+        "ORDER BY f.order_id DESC", null
+    );
+    while (cursor.moveToNext()) {
+        FoodOrder o       = new FoodOrder();
+        o.orderId         = cursor.getInt(0);
+        o.userId          = cursor.getInt(1);
+        o.username        = cursor.getString(2);
+        o.totalAmount     = cursor.getInt(3);
+        o.status          = cursor.getString(4);
+        o.orderDatetime   = cursor.getString(5);
+        list.add(o);
+    }
+    cursor.close();
+    return list;
+}
+
+// Lấy đơn theo trạng thái
+public List<FoodOrder> getOrdersByStatus(String status) {
+    List<FoodOrder> list = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor cursor = db.rawQuery(
+        "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
+        "f.status, f.order_datetime " +
+        "FROM food_order f " +
+        "LEFT JOIN users u ON f.user_id = u.user_id " +
+        "WHERE f.status = ? ORDER BY f.order_id DESC",
+        new String[]{status}
+    );
+    while (cursor.moveToNext()) {
+        FoodOrder o     = new FoodOrder();
+        o.orderId       = cursor.getInt(0);
+        o.userId        = cursor.getInt(1);
+        o.username      = cursor.getString(2);
+        o.totalAmount   = cursor.getInt(3);
+        o.status        = cursor.getString(4);
+        o.orderDatetime = cursor.getString(5);
+        list.add(o);
+    }
+    cursor.close();
+    return list;
+}
+
+// Cập nhật trạng thái đơn
+public void updateOrderStatus(int orderId, String status) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put("status", status);
+    db.update("food_order", values, "order_id=?",
+        new String[]{String.valueOf(orderId)});
+}
+
+// Lấy chi tiết món trong đơn
+public List<String> getOrderDetails(int orderId) {
+    List<String> list = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor cursor = db.rawQuery(
+        "SELECT m.item_name, od.quantity, od.unit_price " +
+        "FROM order_detail od " +
+        "JOIN menu_item m ON od.item_id = m.item_id " +
+        "WHERE od.order_id = ?",
+        new String[]{String.valueOf(orderId)}
+    );
+    while (cursor.moveToNext()) {
+        String name  = cursor.getString(0);
+        int    qty   = cursor.getInt(1);
+        int    price = cursor.getInt(2);
+        list.add(name + " x" + qty + "|" + (price * qty));
+    }
+    cursor.close();
+    return list;
+}
 }

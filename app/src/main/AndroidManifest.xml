@@ -61,12 +61,30 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false" />\
+        <activity 
+            android:name=".ManageFoodActivity"
+            android:exported="false"/>
+
+        <activity 
+            android:name=".ManageOrderActivity"
+            android:exported="false"/>
+        <activity 
+            android:name=".ManageUserActivity"
+            android:exported="false"/>
+        <activity 
+            android:name=".AdminDashboardActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />
-        <activity android:name=".NotificationOrderActivity" android:exported="false" />
-        <activity android:name=".VoucherActivity" android:exported="false" />
+        <activity 
+            android:name=".NotificationOrderActivity" 
+            android:exported="false" />
+        <activity 
+            android:name=".VoucherActivity" 
+            android:exported="false" />
     </application>
 
 </manifest>
