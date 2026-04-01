@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -83,11 +85,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO users (username, password, full_name, address, role) " +
             "VALUES ('admin', '123', 'Quản Trị Viên', 'HCM', 1)");
 
-        Log.d("DB_DEBUG", "Tạo DB thành công!");
+        seedData(db);
+        Log.d("DB_DEBUG", "Khởi tạo DB và nạp dữ liệu thành công!");
+    }
+
+    private void seedData(SQLiteDatabase db) {
+        // Pizza
+        insertMenuItem(db, "Pizza Phô Mai", 45000, "PIZZA", "img_pz1");
+        insertMenuItem(db, "Pizza Hải Sản", 55000, "PIZZA", "img_pz2");
+        insertMenuItem(db, "Pizza Nấm", 45000, "PIZZA", "img_pz3");
+        insertMenuItem(db, "Pizza Xúc Xích Ý", 40000, "PIZZA", "img_pz4");
+        insertMenuItem(db, "Pizza Gà Nướng Dứa", 40000, "PIZZA", "img_pz5");
+        insertMenuItem(db, "Pizza Gà Phô Mai", 45000, "PIZZA", "img_pz8");
+        
+        // Hamburger
+        insertMenuItem(db, "Hamburger Gà", 28000, "HAMBURGER", "img_hbg1");
+        insertMenuItem(db, "Hamburger Bò", 30000, "HAMBURGER", "img_hbg2");
+        insertMenuItem(db, "Hamburger Tôm", 28000, "HAMBURGER", "img_hbg3");
+        insertMenuItem(db, "Bò Sốt Tiêu Đen", 45000, "HAMBURGER", "img_hbg6");
+        
+        // Drinks
+        insertMenuItem(db, "Pepsi", 15000, "DRINK", "img_pepsi");
+        insertMenuItem(db, "Sting", 15000, "DRINK", "img_sting");
+        insertMenuItem(db, "CocaCola", 15000, "DRINK", "img_coca");
+        insertMenuItem(db, "7Up", 15000, "DRINK", "img_7up");
+    }
+
+    private void insertMenuItem(SQLiteDatabase db, String name, int price, String category, String img) {
+        ContentValues v = new ContentValues();
+        v.put("item_name", name);
+        v.put("price", price);
+        v.put("category", category);
+        v.put("image_name", img);
+        db.insertWithOnConflict("menu_item", null, v, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Khi tăng version, xóa hết bảng cũ và chạy lại onCreate để nạp dữ liệu mới
         db.execSQL("DROP TABLE IF EXISTS cart");
         db.execSQL("DROP TABLE IF EXISTS order_detail");
         db.execSQL("DROP TABLE IF EXISTS vouchers");
@@ -98,13 +133,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public int login(String username, String password) {
-        Log.d("DB_DEBUG", "Login với: " + username + " / " + password);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
             "SELECT role FROM users WHERE username=? AND password=?",
             new String[]{username, password}
         );
-        Log.d("DB_DEBUG", "Số dòng tìm được: " + cursor.getCount());
         if (cursor.moveToFirst()) {
             int role = cursor.getInt(0);
             cursor.close();
@@ -112,5 +145,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return -1;
+    }
+
+    public List<Food> getAllFood() {
+        List<Food> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT item_name, price, category, image_name FROM menu_item", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(0);
+                int price = cursor.getInt(1);
+                String category = cursor.getString(2);
+                String imgName = cursor.getString(3);
+                
+                // Trả về đối tượng Food (imageResId để tạm là 0 vì FoodActivity sẽ tự tìm theo imgName)
+                list.add(new Food(name, String.valueOf(price), 0, category, imgName));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
     }
 }
