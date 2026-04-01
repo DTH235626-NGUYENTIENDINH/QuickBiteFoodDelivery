@@ -22,6 +22,18 @@
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Preview Ảnh -->
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_pz1"
+            android:layout_marginBottom="12dp"
+            android:background="#F5F5F5"
+            android:padding="4dp"/>
+
         <!-- Tên món -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tên món ăn" android:textSize="12sp" android:textColor="#999"/>
         <EditText
@@ -63,7 +75,7 @@
             android:id="@+id/edtImageName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="vd: pizza_haisan"
+            android:hint="vd: img_pz1, img_hbg1..."
             android:background="@drawable/background_search"
             android:padding="10dp"
             android:layout_marginBottom="12dp"
