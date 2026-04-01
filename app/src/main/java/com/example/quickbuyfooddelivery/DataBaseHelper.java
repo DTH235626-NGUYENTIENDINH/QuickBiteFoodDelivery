@@ -85,7 +85,70 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO users (username, password, full_name, address, role) " +
             "VALUES ('admin', '123', 'Quản Trị Viên', 'HCM', 1)");
 
-        Log.d("DB_DEBUG", "Tạo DB thành công!");
+        seedData(db);
+        Log.d("DB_DEBUG", "Khởi tạo DB và nạp dữ liệu thành công!");
+    }
+
+    private void seedData(SQLiteDatabase db) {
+        // Pizza
+        insertMenuItem(db, "Pizza Phô Mai", 45000, "PIZZA", "img_pz1");
+        insertMenuItem(db, "Pizza Hải Sản", 55000, "PIZZA", "img_pz2");
+        insertMenuItem(db, "Pizza Nấm", 45000, "PIZZA", "img_pz3");
+        insertMenuItem(db, "Pizza Xúc Xích Ý", 40000, "PIZZA", "img_pz4");
+        insertMenuItem(db, "Pizza Gà Nướng Dứa", 40000, "PIZZA", "img_pz5");
+        insertMenuItem(db, "Pizza Gà Phô Mai", 45000, "PIZZA", "img_pz8");
+
+        // Hamburger
+        insertMenuItem(db, "Hamburger Gà", 28000, "HAMBURGER", "img_hbg1");
+        insertMenuItem(db, "Hamburger Bò", 30000, "HAMBURGER", "img_hbg2");
+        insertMenuItem(db, "Hamburger Tôm", 28000, "HAMBURGER", "img_hbg3");
+        insertMenuItem(db, "Bò Sốt Tiêu Đen", 45000, "HAMBURGER", "img_hbg6");
+
+        // Drinks
+        insertMenuItem(db, "Pepsi", 15000, "DRINK", "img_pepsi");
+        insertMenuItem(db, "Sting", 15000, "DRINK", "img_sting");
+        insertMenuItem(db, "CocaCola", 15000, "DRINK", "img_coca");
+        insertMenuItem(db, "7Up", 15000, "DRINK", "img_7up");
+
+        // Vouchers
+        insertVoucher(db, "KM10", 10, 50000, 100000);
+        insertVoucher(db, "QUICKBUY50", 50, 30000, 0);
+        insertVoucher(db, "FREESHIP", 100, 15000, 50000);
+    }
+
+    private void insertMenuItem(SQLiteDatabase db, String name, int price, String category, String img) {
+        ContentValues v = new ContentValues();
+        v.put("item_name", name);
+        v.put("price", price);
+        v.put("category", category);
+        v.put("image_name", img);
+        db.insertWithOnConflict("menu_item", null, v, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
+    private void insertVoucher(SQLiteDatabase db, String code, int percent, double max, double min) {
+        ContentValues v = new ContentValues();
+        v.put("code", code);
+        v.put("discount_percent", percent);
+        v.put("max_discount", max);
+        v.put("min_order", min);
+        db.insertWithOnConflict("vouchers", null, v, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
+    public List<Voucher> getAllVouchers() {
+        List<Voucher> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id, code, discount_percent, max_discount, min_order FROM vouchers", null);
+        while (cursor.moveToNext()) {
+            list.add(new Voucher(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getInt(2),
+                cursor.getDouble(3),
+                cursor.getDouble(4)
+            ));
+        }
+        cursor.close();
+        return list;
     }
 
     @Override
@@ -99,21 +162,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int login(String username, String password) {
-        Log.d("DB_DEBUG", "Login với: " + username + " / " + password);
+    // Trả về mảng {role, user_id}
+    public int[] loginExtended(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-            "SELECT role FROM users WHERE username=? AND password=?",
+            "SELECT role, user_id FROM users WHERE username=? AND password=?",
             new String[]{username, password}
         );
-        Log.d("DB_DEBUG", "Số dòng tìm được: " + cursor.getCount());
         if (cursor.moveToFirst()) {
             int role = cursor.getInt(0);
+            int userId = cursor.getInt(1);
             cursor.close();
-            return role;
+            return new int[]{role, userId};
         }
         cursor.close();
-        return -1;
+        return null;
+    }
+
+    public int login(String username, String password) {
+        int[] result = loginExtended(username, password);
+        return (result != null) ? result[0] : -1;
+    }
+
+    public boolean registerUser(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", username.trim());
+        values.put("password", password.trim());
+        values.put("role", 0);
+        long result = db.insert("users", null, values);
+        return result != -1;
+    }
+
+    public boolean isUsernameExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username.trim()});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
     // Tổng doanh thu
@@ -174,8 +260,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return 0;
-
     }
+
     // Lấy tất cả món (cho admin)
     public List<MenuItem> getAllMenuItemsAdmin() {
         List<MenuItem> list = new ArrayList<>();
@@ -236,83 +322,103 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     // Lấy tất cả đơn hàng kèm username
-public List<FoodOrder> getAllOrders() {
-    List<FoodOrder> list = new ArrayList<>();
-    SQLiteDatabase db = this.getReadableDatabase();
-    Cursor cursor = db.rawQuery(
-        "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
-        "f.status, f.order_datetime " +
-        "FROM food_order f " +
-        "LEFT JOIN users u ON f.user_id = u.user_id " +
-        "ORDER BY f.order_id DESC", null
-    );
-    while (cursor.moveToNext()) {
-        FoodOrder o       = new FoodOrder();
-        o.orderId         = cursor.getInt(0);
-        o.userId          = cursor.getInt(1);
-        o.username        = cursor.getString(2);
-        o.totalAmount     = cursor.getInt(3);
-        o.status          = cursor.getString(4);
-        o.orderDatetime   = cursor.getString(5);
-        list.add(o);
+    public List<FoodOrder> getAllOrders() {
+        List<FoodOrder> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
+            "f.status, f.order_datetime " +
+            "FROM food_order f " +
+            "LEFT JOIN users u ON f.user_id = u.user_id " +
+            "ORDER BY f.order_id DESC", null
+        );
+        while (cursor.moveToNext()) {
+            FoodOrder o       = new FoodOrder();
+            o.orderId         = cursor.getInt(0);
+            o.userId          = cursor.getInt(1);
+            o.username        = cursor.getString(2);
+            o.totalAmount     = cursor.getInt(3);
+            o.status          = cursor.getString(4);
+            o.orderDatetime   = cursor.getString(5);
+            list.add(o);
+        }
+        cursor.close();
+        return list;
     }
-    cursor.close();
-    return list;
-}
 
-// Lấy đơn theo trạng thái
-public List<FoodOrder> getOrdersByStatus(String status) {
-    List<FoodOrder> list = new ArrayList<>();
-    SQLiteDatabase db = this.getReadableDatabase();
-    Cursor cursor = db.rawQuery(
-        "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
-        "f.status, f.order_datetime " +
-        "FROM food_order f " +
-        "LEFT JOIN users u ON f.user_id = u.user_id " +
-        "WHERE f.status = ? ORDER BY f.order_id DESC",
-        new String[]{status}
-    );
-    while (cursor.moveToNext()) {
-        FoodOrder o     = new FoodOrder();
-        o.orderId       = cursor.getInt(0);
-        o.userId        = cursor.getInt(1);
-        o.username      = cursor.getString(2);
-        o.totalAmount   = cursor.getInt(3);
-        o.status        = cursor.getString(4);
-        o.orderDatetime = cursor.getString(5);
-        list.add(o);
+    // Lấy đơn theo trạng thái
+    public List<FoodOrder> getOrdersByStatus(String status) {
+        List<FoodOrder> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT f.order_id, f.user_id, u.username, f.total_amount, " +
+            "f.status, f.order_datetime " +
+            "FROM food_order f " +
+            "LEFT JOIN users u ON f.user_id = u.user_id " +
+            "WHERE f.status = ? ORDER BY f.order_id DESC",
+            new String[]{status}
+        );
+        while (cursor.moveToNext()) {
+            FoodOrder o     = new FoodOrder();
+            o.orderId       = cursor.getInt(0);
+            o.userId        = cursor.getInt(1);
+            o.username      = cursor.getString(2);
+            o.totalAmount   = cursor.getInt(3);
+            o.status        = cursor.getString(4);
+            o.orderDatetime = cursor.getString(5);
+            list.add(o);
+        }
+        cursor.close();
+        return list;
     }
-    cursor.close();
-    return list;
-}
 
-// Cập nhật trạng thái đơn
-public void updateOrderStatus(int orderId, String status) {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put("status", status);
-    db.update("food_order", values, "order_id=?",
-        new String[]{String.valueOf(orderId)});
-}
+    public List<Food> getAllFood() {
+        List<Food> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT item_name, price, category, image_name FROM menu_item", null);
 
-// Lấy chi tiết món trong đơn
-public List<String> getOrderDetails(int orderId) {
-    List<String> list = new ArrayList<>();
-    SQLiteDatabase db = this.getReadableDatabase();
-    Cursor cursor = db.rawQuery(
-        "SELECT m.item_name, od.quantity, od.unit_price " +
-        "FROM order_detail od " +
-        "JOIN menu_item m ON od.item_id = m.item_id " +
-        "WHERE od.order_id = ?",
-        new String[]{String.valueOf(orderId)}
-    );
-    while (cursor.moveToNext()) {
-        String name  = cursor.getString(0);
-        int    qty   = cursor.getInt(1);
-        int    price = cursor.getInt(2);
-        list.add(name + " x" + qty + "|" + (price * qty));
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(0);
+                int price = cursor.getInt(1);
+                String category = cursor.getString(2);
+                String imgName = cursor.getString(3);
+
+                // Trả về đối tượng Food (imageResId để tạm là 0 vì FoodActivity sẽ tự tìm theo imgName)
+                list.add(new Food(name, String.valueOf(price), 0, category, imgName));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
     }
-    cursor.close();
-    return list;
-}
+
+    // Cập nhật trạng thái đơn
+    public void updateOrderStatus(int orderId, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("status", status);
+        db.update("food_order", values, "order_id=?",
+            new String[]{String.valueOf(orderId)});
+    }
+
+    // Lấy chi tiết món trong đơn
+    public List<String> getOrderDetails(int orderId) {
+        List<String> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT m.item_name, od.quantity, od.unit_price " +
+            "FROM order_detail od " +
+            "JOIN menu_item m ON od.item_id = m.item_id " +
+            "WHERE od.order_id = ?",
+            new String[]{String.valueOf(orderId)}
+        );
+        while (cursor.moveToNext()) {
+            String name  = cursor.getString(0);
+            int    qty   = cursor.getInt(1);
+            int    price = cursor.getInt(2);
+            list.add(name + " x" + qty + "|" + (price * qty));
+        }
+        cursor.close();
+        return list;
+    }
 }

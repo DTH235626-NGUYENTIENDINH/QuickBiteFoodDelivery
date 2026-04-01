@@ -1,6 +1,7 @@
 package com.example.quickbuyfooddelivery;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +24,9 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
     private TextView tvThanhTien;
     private ShoppingCartAdapter adapter;
     private List<ShoppingCart> cartItems;
+    private DataBaseHelper db;
+    private List<Voucher> voucherList;
+    private Voucher selectedVoucher = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_shopping_cart);
 
+        db = new DataBaseHelper(this);
         tvThanhTien = findViewById(R.id.tvThanhTien);
         RecyclerView recyclerView = findViewById(R.id.rcvItemCart);
         
@@ -39,8 +45,8 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
             recyclerView.setAdapter(adapter);
         }
 
-        updateTotal();
         setupSpinner();
+        updateTotal();
     }
 
     @Override
@@ -49,24 +55,45 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
     }
 
     private void updateTotal() {
-        long total = 0;
+        long subtotal = 0;
         for (ShoppingCart item : cartItems) {
-            total += item.getPriceValue() * item.getNum();
+            subtotal += item.getPriceValue() * item.getNum();
         }
+
+        double discount = 0;
+        if (selectedVoucher != null && selectedVoucher.getId() != -1) {
+            if (subtotal >= selectedVoucher.getMinOrder()) {
+                discount = subtotal * (selectedVoucher.getDiscountPercent() / 100.0);
+                if (selectedVoucher.getMaxDiscount() > 0 && discount > selectedVoucher.getMaxDiscount()) {
+                    discount = selectedVoucher.getMaxDiscount();
+                }
+            } else {
+                Toast.makeText(this, "Đơn hàng chưa đủ tối thiểu " + (int)selectedVoucher.getMinOrder() + "đ để dùng mã này", Toast.LENGTH_SHORT).show();
+                // Reset spinner if needed or just don't apply discount
+                discount = 0;
+            }
+        }
+
+        long finalTotal = subtotal - (long)discount;
+        if (finalTotal < 0) finalTotal = 0;
+
         DecimalFormat formatter = new DecimalFormat("#,###");
-        tvThanhTien.setText(formatter.format(total) + " vnđ");
+        tvThanhTien.setText(formatter.format(finalTotal) + " vnđ");
     }
 
     private void setupSpinner() {
         Spinner spinner = findViewById(R.id.spnMaGiamGia);
         if (spinner == null) return;
 
-        List<String> listSpinner = new ArrayList<>();
-        listSpinner.add("Mã giảm giá");
-        listSpinner.add("KM10 - Giảm 10%");
-        listSpinner.add("FREESHIP");
+        voucherList = new ArrayList<>();
+        // Add default option
+        voucherList.add(new Voucher(-1, "Chọn mã giảm giá", 0, 0, 0));
+        
+        // Load from DB
+        List<Voucher> dbVouchers = db.getAllVouchers();
+        voucherList.addAll(dbVouchers);
 
-        ArrayAdapter<String> adapterUuDai = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listSpinner);
+        ArrayAdapter<Voucher> adapterUuDai = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, voucherList);
         adapterUuDai.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterUuDai);
 
@@ -78,10 +105,13 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
                 }
                 return false;
             });
+            
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     imgChevron.animate().rotation(0f).setDuration(300).start();
+                    selectedVoucher = voucherList.get(position);
+                    updateTotal();
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {

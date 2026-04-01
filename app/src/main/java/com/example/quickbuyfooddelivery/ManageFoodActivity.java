@@ -122,6 +122,7 @@ public class ManageFoodActivity extends AppCompatActivity {
         EditText edtPrice   = view.findViewById(R.id.edtFoodPrice);
         Spinner  spinner    = view.findViewById(R.id.spinnerCategory);
         EditText edtImage   = view.findViewById(R.id.edtImageName);
+        ImageView imgPreview = view.findViewById(R.id.imgPreview);
         EditText edtDesc    = view.findViewById(R.id.edtDescription);
         Switch   swAvail    = view.findViewById(R.id.switchAvailable);
         Button   btnCancel  = view.findViewById(R.id.btnCancel);
@@ -135,6 +136,23 @@ public class ManageFoodActivity extends AppCompatActivity {
             android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinAdapter);
 
+        // Preview ảnh khi nhập tên
+        edtImage.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String imgName = s.toString().trim();
+                if (!imgName.isEmpty()) {
+                    int resId = getResources().getIdentifier(imgName, "drawable", getPackageName());
+                    if (resId != 0) {
+                        imgPreview.setImageResource(resId);
+                    } else {
+                        imgPreview.setImageResource(R.mipmap.ic_launcher);
+                    }
+                }
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
         if (editItem != null) {
             tvTitle.setText("Sửa món ăn");
             edtName.setText(editItem.itemName);
@@ -142,6 +160,13 @@ public class ManageFoodActivity extends AppCompatActivity {
             edtImage.setText(editItem.imageName);
             edtDesc.setText(editItem.description);
             swAvail.setChecked(editItem.isAvailable == 1);
+            
+            // Hiện preview ảnh cũ
+            if (editItem.imageName != null) {
+                int resId = getResources().getIdentifier(editItem.imageName, "drawable", getPackageName());
+                if (resId != 0) imgPreview.setImageResource(resId);
+            }
+
             for (int i = 0; i < categories.length; i++) {
                 if (categories[i].equals(editItem.category)) {
                     spinner.setSelection(i);

@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class FoodActivity extends BaseActivity {
     private EditText edtSearch;
     private ImageButton btnSearchAction;
     private ImageView imgeGiohang;
+    private DataBaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class FoodActivity extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_food);
 
+        db = new DataBaseHelper(this);
         setupTaskbar(R.id.btnFood);
         initViews();
         setupRecyclerView();
@@ -79,34 +82,31 @@ public class FoodActivity extends BaseActivity {
     }
 
     private List<Food> getInitialFoodData() {
-        List<Food> list = new ArrayList<>();
-        // Pizza
-        list.add(new Food("Pizza Phô Mai", "45.000 vnđ", R.drawable.img_pz1, "PIZZA"));
-        list.add(new Food("Pizza Hải Sản", "55.000 vnđ", R.drawable.img_pz2, "PIZZA"));
-        list.add(new Food("Pizza Nấm", "45.000 vnđ", R.drawable.img_pz3, "PIZZA"));
-        list.add(new Food("Pizza Xúc Xích Ý", "40.000 vnđ", R.drawable.img_pz4, "PIZZA"));
-        list.add(new Food("Pizza Gà Nướng Dứa", "40.000 vnđ", R.drawable.img_pz5, "PIZZA"));
-        list.add(new Food("Phô Mai Thêm", "45.000 vnđ", R.drawable.img_pz6, "PIZZA"));
-        list.add(new Food("Pizza Rau Củ", "32.000 vnđ", R.drawable.img_pz7, "PIZZA"));
-        list.add(new Food("Pizza Gà Phô Mai", "45.000 vnđ", R.drawable.img_pz8, "PIZZA"));
-        list.add(new Food("Pizza Táo Mật Ong", "35.000 vnđ", R.drawable.img_pz7, "PIZZA"));
-        // Hamburger
-        list.add(new Food("Hamburger Gà", "28.000 vnđ", R.drawable.img_hbg1, "HAMBURGER"));
-        list.add(new Food("Hamburger Bò", "30.000 vnđ", R.drawable.img_hbg2, "HAMBURGER"));
-        list.add(new Food("Hamburger Tôm", "28.000 vnđ", R.drawable.img_hbg3, "HAMBURGER"));
-        list.add(new Food("Hamburger Heo", "28.000 vnđ", R.drawable.img_hbg4, "HAMBURGER"));
-        list.add(new Food("Hamburger Cá", "28.000 vnđ", R.drawable.img_hbg5, "HAMBURGER"));
-        list.add(new Food("Bò Sốt Tiêu Đen", "45.000 vnđ", R.drawable.img_hbg6, "HAMBURGER"));
-        list.add(new Food("Salad Trộn", "15.000 vnđ", R.drawable.img_hbg7, "HAMBURGER"));
-        // Drinks
-        list.add(new Food("Pepsi", "15.000 vnđ", R.drawable.img_pepsi, "DRINK"));
-        list.add(new Food("Sting", "15.000 vnđ", R.drawable.img_sting, "DRINK"));
-        list.add(new Food("7Up", "15.000 vnđ", R.drawable.img_7up, "DRINK"));
-        list.add(new Food("Sprite", "15.000 vnđ", R.drawable.img_sprite, "DRINK"));
-        list.add(new Food("Mirinda Cam", "15.000 vnđ", R.drawable.img_mirinda, "DRINK"));
-        list.add(new Food("CocaCola", "15.000 vnđ", R.drawable.img_coca, "DRINK"));
-        list.add(new Food("Nước Suối", "10.000 vnđ", R.drawable.img_water, "DRINK"));
-        return list;
+        List<Food> rawList = db.getAllFood();
+        List<Food> finalFoodList = new ArrayList<>();
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
+        for (Food item : rawList) {
+            // Lấy ID ảnh từ tên ảnh trong DB
+            int imageResId = getResources().getIdentifier(item.getImageName(), "drawable", getPackageName());
+            if (imageResId == 0) imageResId = R.drawable.img_pz1; // Ảnh mặc định nếu không tìm thấy
+
+            // Định dạng lại giá tiền có dấu chấm và "vnđ"
+            String formattedPrice = "";
+            try {
+                formattedPrice = formatter.format(Long.parseLong(item.getPrice())) + " vnđ";
+            } catch (Exception e) {
+                formattedPrice = item.getPrice() + " vnđ";
+            }
+
+            finalFoodList.add(new Food(
+                    item.getName(),
+                    formattedPrice,
+                    imageResId,
+                    item.getCategory()
+            ));
+        }
+        return finalFoodList;
     }
 
     private void updateCategoryUI(String category) {
@@ -115,15 +115,25 @@ public class FoodActivity extends BaseActivity {
         int white = ContextCompat.getColor(this, R.color.white);
         int gray = 0xFFBDBDBD;
 
-        btnAll.setBackgroundTintList(ColorStateList.valueOf(category.equals("ALL") ? selectedColor : unselectedColor));
-        btnAll.setTextColor(category.equals("ALL") ? white : gray);
-        btnPizza.setBackgroundTintList(ColorStateList.valueOf(category.equals("PIZZA") ? selectedColor : unselectedColor));
-        btnPizza.setTextColor(category.equals("PIZZA") ? white : gray);
-        btnHamburger.setBackgroundTintList(ColorStateList.valueOf(category.equals("HAMBURGER") ? selectedColor : unselectedColor));
-        btnHamburger.setTextColor(category.equals("HAMBURGER") ? white : gray);
-        btnDrinks.setBackgroundTintList(ColorStateList.valueOf(category.equals("DRINK") ? selectedColor : unselectedColor));
-        btnDrinks.setTextColor(category.equals("DRINK") ? white : gray);
+        if (btnAll != null) {
+            btnAll.setBackgroundTintList(ColorStateList.valueOf(category.equals("ALL") ? selectedColor : unselectedColor));
+            btnAll.setTextColor(category.equals("ALL") ? white : gray);
+        }
+        if (btnPizza != null) {
+            btnPizza.setBackgroundTintList(ColorStateList.valueOf(category.equals("PIZZA") ? selectedColor : unselectedColor));
+            btnPizza.setTextColor(category.equals("PIZZA") ? white : gray);
+        }
+        if (btnHamburger != null) {
+            btnHamburger.setBackgroundTintList(ColorStateList.valueOf(category.equals("HAMBURGER") ? selectedColor : unselectedColor));
+            btnHamburger.setTextColor(category.equals("HAMBURGER") ? white : gray);
+        }
+        if (btnDrinks != null) {
+            btnDrinks.setBackgroundTintList(ColorStateList.valueOf(category.equals("DRINK") ? selectedColor : unselectedColor));
+            btnDrinks.setTextColor(category.equals("DRINK") ? white : gray);
+        }
 
-        foodAdapter.filter(category);
+        if (foodAdapter != null) {
+            foodAdapter.filter(category);
+        }
     }
 }
