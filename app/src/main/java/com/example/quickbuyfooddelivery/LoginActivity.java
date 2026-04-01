@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     if (role == 1) {
         Toast.makeText(this, "Chào Admin!", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, Home.class));
+        startActivity(new Intent(this, AdminDashboardActivity.class));
         finish();
     } else if (role == 0) {
         Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
