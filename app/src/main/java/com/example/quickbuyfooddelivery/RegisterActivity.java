@@ -19,18 +19,24 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvBackToLogin;
     private DataBaseHelper db;
 
+    private String Email = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         db = new DataBaseHelper(this);
-
         edtUsername = findViewById(R.id.edtUsername);
         edtRegPassword = findViewById(R.id.edtRegPassword);
         edtRegConfirmPassword = findViewById(R.id.edtRegConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
         tvBackToLogin = findViewById(R.id.tvBackToLogin);
+
+        Intent intent = getIntent();
+        if(intent!=null){
+            Email = intent.getStringExtra("email");
+        }
 
         // Xử lý khi bấm Đăng ký
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        boolean success = db.registerUser(username, password);
+        boolean success = db.registerUser(username, password, Email);
         if (success) {
             AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
             builder.setTitle("Chúc mừng!");

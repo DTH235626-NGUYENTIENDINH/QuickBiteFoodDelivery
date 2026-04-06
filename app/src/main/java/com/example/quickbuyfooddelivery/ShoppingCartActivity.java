@@ -1,5 +1,6 @@
 package com.example.quickbuyfooddelivery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -118,6 +119,74 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
                     imgChevron.animate().rotation(0f).setDuration(300).start();
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        android.widget.Button btnDatHang = findViewById(R.id.btnDatHang);
+        if (btnDatHang != null) {
+            btnDatHang.setOnClickListener(v -> handlePlaceOrder());
+        }
+    }
+
+    private void handlePlaceOrder() {
+        if (cartItems == null || cartItems.isEmpty()) {
+            Toast.makeText(this, "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 2. Lấy thông tin người nhận hàng từ các ô EditText
+        android.widget.EditText edtHoTen = findViewById(R.id.editTextHoTen);
+        android.widget.EditText edtSDT = findViewById(R.id.editTextSDT);
+        android.widget.EditText edtDiaChi = findViewById(R.id.editTextDiaChi);
+
+        String hoTen = edtHoTen.getText().toString().trim();
+        String sdt = edtSDT.getText().toString().trim();
+        String diaChi = edtDiaChi.getText().toString().trim();
+
+        if (hoTen.isEmpty() || sdt.isEmpty() || diaChi.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ Họ tên, SĐT và Địa chỉ!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 3. Lấy thông tin đơn hàng
+        // Lấy con số tổng tiền (Cắt bỏ chữ " vnđ" và dấu phẩy để ép sang kiểu số)
+        String strTongTien = tvThanhTien.getText().toString().replace(" vnđ", "").replace(",", "");
+        int totalAmount = 0;
+        try {
+            totalAmount = Integer.parseInt(strTongTien);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        int voucherId = (selectedVoucher != null && selectedVoucher.getId() != -1) ? selectedVoucher.getId() : 0;
+
+        android.content.SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("user_id", -1);
+
+        int orderId = db.placeOrder(currentUserId, totalAmount, voucherId, cartItems);
+
+        if (orderId != -1) {
+            // 5. Lưu thông báo vào DB cho màn hình "Cái chuông"
+            String title = "Đặt hàng thành công";
+            String message = "Đơn hàng #" + orderId + " trị giá " + tvThanhTien.getText().toString() + " đã được xác nhận. Đang giao đến: " + diaChi;
+            db.insertNotification(currentUserId, title, message, "ORDER");
+
+            // 6. Xóa giỏ hàng trên RAM
+            cartItems.clear();
+            adapter.notifyDataSetChanged();
+            tvThanhTien.setText("0 vnđ");
+
+            Toast.makeText(this, "Chốt đơn thành công! Cảm ơn bạn.", Toast.LENGTH_LONG).show();
+
+            // (Tùy chọn) Chuyển khách về màn hình Danh sách thông báo hoặc trang chủ
+            Intent intent = new Intent(ShoppingCartActivity.this, NotificationOrderActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "Có lỗi xảy ra, không thể đặt hàng!", Toast.LENGTH_SHORT).show();
         }
     }
 }

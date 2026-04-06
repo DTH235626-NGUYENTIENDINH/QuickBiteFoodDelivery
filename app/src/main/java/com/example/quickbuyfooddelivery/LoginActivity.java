@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putInt("user_id", userId);
             editor.putInt("role", role);
             editor.putBoolean("isLoggedIn", true);
+            editor.putString("username", username);
             editor.apply();
 
             if (role == 1) {

@@ -24,6 +24,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "username TEXT NOT NULL," +
             "password TEXT NOT NULL," +
+            "phone TEXT," +
+            "email TEXT," +
+            "sex TEXT,"+
             "full_name TEXT," +
             "address TEXT," +
             "role INTEGER DEFAULT 0" +
@@ -82,8 +85,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "FOREIGN KEY (item_id) REFERENCES menu_item(item_id)" +
             ")");
 
-        db.execSQL("INSERT INTO users (username, password, full_name, address, role) " +
-            "VALUES ('admin', '123', 'Quản Trị Viên', 'HCM', 1)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS notifications (" +
+                "notif_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "user_id INTEGER," +
+                "title TEXT," +
+                "message TEXT," +
+                "type TEXT," + // Loại thông báo (VD: 'ORDER', 'SYSTEM')
+                "created_at TEXT DEFAULT (datetime('now', 'localtime'))," +
+                "is_read INTEGER DEFAULT 0," +
+                "FOREIGN KEY (user_id) REFERENCES users(user_id)" +
+                ")");
+
+        db.execSQL("INSERT INTO users (username, password, phone, email, sex, full_name, address, role) " +
+            "VALUES ('admin', '123','0312121212','admin@quickbuy.com', 'Nam', 'Quản Trị Viên','HCM', 1)");
 
         seedData(db);
         Log.d("DB_DEBUG", "Khởi tạo DB và nạp dữ liệu thành công!");
@@ -184,11 +198,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return (result != null) ? result[0] : -1;
     }
 
-    public boolean registerUser(String username, String password) {
+    public boolean registerUser(String username, String password, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("username", username.trim());
         values.put("password", password.trim());
+        values.put("email", email.trim());
         values.put("role", 0);
         long result = db.insert("users", null, values);
         return result != -1;
@@ -420,5 +435,108 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return list;
+    }
+    //Phần User
+        //Lấy user
+    public android.database.Cursor getUserInfo(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Lấy ra: Họ tên (0), Email (1), Địa chỉ (2), SĐT (3), Giới tính (4)
+        return db.rawQuery(
+                "SELECT full_name, email, address, phone, sex FROM users WHERE username=?",
+                new String[]{username}
+        );
+    }
+    // Cập nhật thông tin người dùng
+    public boolean updateUserInfo(String username, String fullName, String email, String address, String phone, String sex) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        android.content.ContentValues values = new android.content.ContentValues();
+
+        values.put("full_name", fullName);
+        values.put("email", email);
+        values.put("address", address);
+        values.put("phone", phone);
+        values.put("sex", sex);
+
+        int result = db.update("users", values, "username=?", new String[]{username});
+        return result > 0; // Trả về true nếu cập nhật thành công ít nhất 1 dòng
+    }
+    //Phần thong bao
+        //Thêm thông báo mới vào DB
+    public boolean insertNotification(int userId, String title, String message, String type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("user_id", userId);
+        values.put("title", title);
+        values.put("message", message);
+        values.put("type", type);
+
+        long result = db.insert("notifications", null, values);
+        return result != -1;
+    }
+
+        //Lấy danh sách thông báo của 1 user
+    public Cursor getUserNotifications(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT notif_id, title, message, type, created_at, is_read " +
+                        "FROM notifications WHERE user_id = ? ORDER BY notif_id DESC",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+
+    //Dat đơn
+    public int placeOrder(int userId, int totalAmount, int voucherId, java.util.List<com.example.quickbuyfooddelivery.models.ShoppingCart> cartItems) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int newOrderId = -1;
+
+        db.beginTransaction();
+        try {
+            // 1. Tạo đơn hàng mới trong bảng food_order
+            android.content.ContentValues orderValues = new android.content.ContentValues();
+            orderValues.put("user_id", userId);
+            orderValues.put("total_amount", totalAmount);
+            orderValues.put("status", "pending");
+            if (voucherId > 0) {
+                orderValues.put("voucher_id", voucherId);
+            }
+
+            long insertedId = db.insert("food_order", null, orderValues);
+
+            if (insertedId != -1) {
+                newOrderId = (int) insertedId;
+
+                // 2. Chép từng món vào order_detail
+                for (com.example.quickbuyfooddelivery.models.ShoppingCart item : cartItems) {
+                    int itemId = -1;
+
+                    // TÌM ID BẰNG TÊN MÓN
+                    Cursor cursor = db.rawQuery("SELECT item_id FROM menu_item WHERE item_name = ?", new String[]{item.getTen()});
+                    if (cursor.moveToFirst()) {
+                        itemId = cursor.getInt(0); // Lấy được ID rồi
+                    }
+                    cursor.close();
+
+                    // Nếu tìm thấy ID thì mới nhét vào hóa đơn
+                    if (itemId != -1) {
+                        android.content.ContentValues detailValues = new android.content.ContentValues();
+                        detailValues.put("order_id", newOrderId);
+                        detailValues.put("item_id", itemId); // Dùng ID vừa tìm được
+                        detailValues.put("quantity", item.getNum());
+                        detailValues.put("unit_price", item.getPriceValue());
+
+                        db.insert("order_detail", null, detailValues);
+                    }
+                }
+
+                // 3. Xác nhận chốt đơn thành công
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+
+        return newOrderId;
     }
 }

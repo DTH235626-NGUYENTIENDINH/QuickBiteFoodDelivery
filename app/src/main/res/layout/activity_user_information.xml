@@ -56,6 +56,21 @@
                 android:background="@color/background">
 
 
+                <EditText
+                    android:id="@+id/edtHoTen"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/input_shape"
+                    android:ems="10"
+                    android:hint="Họ và tên"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.502"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
                     android:layout_width="70dp"
@@ -82,6 +97,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:srcCompat="@mipmap/ico_camera" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -95,64 +111,59 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="168dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/img_shorttextbox" />
+                <EditText
+                    android:id="@+id/edtSDT"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/input_shape"
+                    android:ems="10"
+                    android:hint="Số điện thoại"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtHoTen"
+                    app:layout_constraintHorizontal_bias="0.525"
+                    app:layout_constraintStart_toStartOf="@+id/edtHoTen"
+                    app:layout_constraintTop_toBottomOf="@+id/edtHoTen" />
 
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/img_shorttextbox" />
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/input_shape"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtSDT"
+                    app:layout_constraintHorizontal_bias="0.525"
+                    app:layout_constraintStart_toStartOf="@+id/edtSDT"
+                    app:layout_constraintTop_toBottomOf="@+id/edtSDT" />
 
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView8"
-                    app:srcCompat="@drawable/img_longtextbox" />
+                <EditText
+                    android:id="@+id/edtDiaChi"
+                    android:layout_width="350dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/input_shape"
+                    android:ems="10"
+                    android:hint="Địa chỉ"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:layout_constraintStart_toStartOf="@+id/edtEmail"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerGioiTinh" />
 
-                <ImageView
-                    android:id="@+id/imageView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView10"
-                    app:srcCompat="@drawable/img_longtextbox" />
-
-                <ImageView
-                    android:id="@+id/imageView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="30dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView11"
-                    app:srcCompat="@drawable/img_shorttextbox" />
-
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView13"
-                    app:srcCompat="@drawable/img_longtextbox" />
+                <Spinner
+                    android:id="@+id/spinnerGioiTinh"
+                    android:layout_width="175dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/input_shape"
+                    app:layout_constraintStart_toStartOf="@+id/edtEmail"
+                    app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
                 <Button
                     android:id="@+id/btnCapNhat"
@@ -166,88 +177,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView14"
-                    app:layout_constraintVertical_bias="0.325" />
-
-                <EditText
-                    android:id="@+id/txtHo"
-                    android:layout_width="140dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Họ *"
-                    android:inputType="text"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="@+id/imageView8"
-                    app:layout_constraintStart_toStartOf="@+id/imageView8"
-                    app:layout_constraintTop_toTopOf="@+id/imageView8"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/txtTen"
-                    android:layout_width="140dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Tên *"
-                    android:inputType="text"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="@+id/imageView9"
-                    app:layout_constraintStart_toStartOf="@+id/imageView9"
-                    app:layout_constraintTop_toTopOf="@+id/imageView9"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/txtSDT"
-                    android:layout_width="326dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Số điện thoại"
-                    android:inputType="text"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="@+id/imageView10"
-                    app:layout_constraintStart_toStartOf="@+id/imageView10"
-                    app:layout_constraintTop_toTopOf="@+id/imageView10"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/txtEmail"
-                    android:layout_width="326dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Email *"
-                    android:inputType="textEmailAddress"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="@+id/imageView11"
-                    app:layout_constraintStart_toStartOf="@+id/imageView11"
-                    app:layout_constraintTop_toTopOf="@+id/imageView11"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <Spinner
-                    android:id="@+id/spinnerGioiTinh"
-                    android:layout_width="140dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView13"
-                    app:layout_constraintStart_toStartOf="@+id/imageView13"
-                    app:layout_constraintTop_toTopOf="@+id/imageView13"
-                    tools:ignore="TouchTargetSizeCheck" />
-
-                <EditText
-                    android:id="@+id/txtDiaChi"
-                    android:layout_width="326dp"
-                    android:layout_height="45dp"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="Địa chỉ"
-                    android:inputType="text"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="@+id/imageView14"
-                    app:layout_constraintStart_toStartOf="@+id/imageView14"
-                    app:layout_constraintTop_toTopOf="@+id/imageView14"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/edtDiaChi" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

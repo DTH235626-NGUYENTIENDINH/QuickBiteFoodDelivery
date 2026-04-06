@@ -1,8 +1,10 @@
 package com.example.quickbuyfooddelivery;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -14,6 +16,8 @@ import com.example.quickbuyfooddelivery.secondary_profile_activity.WishlistActiv
 public class ProfileActivity extends BaseActivity {
     private ConstraintLayout layoutCaiDat;
     private ConstraintLayout layoutHoSo;
+    private TextView tvName;
+    private DataBaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +60,34 @@ public class ProfileActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        // Hiển thị tên người dùng đã đăng nhập
+        tvName = findViewById(R.id.tvName); // Tên ID của cái TextView chứa họ tên
+        db = new DataBaseHelper(this);
+    }
+    // DÙNG HÀM onResume ĐỂ LUÔN CẬP NHẬT TÊN MỚI NHẤT
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // lấy username người dùng hiện tại
+        SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        String currentUsername = pref.getString("username", "");
+
+        if (!currentUsername.isEmpty()) {
+            // Dùng lại hàm getUserInfo
+            android.database.Cursor cursor = db.getUserInfo(currentUsername);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Ở hàm getUserInfo, full_name nằm ở cột đầu tiên (vị trí số 0)
+                String fullName = cursor.getString(0);
+
+                if (fullName != null && !fullName.isEmpty()) {
+                    tvName.setText(fullName);
+                } else {
+                    tvName.setText("Người dùng");
+                }
+                cursor.close();
+            }
+        }
     }
 }
