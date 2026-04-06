@@ -54,11 +54,17 @@ public class NotificationActivity extends BaseActivity {
 
         // Xử lý click
         layoutThongBaoKhuyenMai.setOnClickListener(v -> {
+            if (currentUserId !=  -1){
+                db.markNotificationsAsRead(currentUserId, "PROMOTION");
+            }
             Intent intent = new Intent(NotificationActivity.this, VoucherActivity.class);
             startActivity(intent);
         });
 
         layoutThongBaoDonHang.setOnClickListener(v -> {
+            if (currentUserId !=  -1){
+                db.markNotificationsAsRead(currentUserId, "ORDER");
+            }
             Intent intent = new Intent(NotificationActivity.this, NotificationOrderActivity.class);
             startActivity(intent);
         });
@@ -79,62 +85,57 @@ public class NotificationActivity extends BaseActivity {
         if (list == null) list = new ArrayList<>();
         list.clear();
 
-        int unreadCount = 0;
-        String latestMessage = "Chưa có thông báo mới";
+        int unreadOrderCount = 0;
+        int unreadPromotionCount = 0;
+        String latestOrderMsg = "Chưa có thông báo đơn hàng";
 
-        // 1. Chỉ thực hiện nếu ID hợp lệ
         if (currentUserId != -1) {
             Cursor cursor = db.getUserNotifications(currentUserId);
-
             if (cursor != null) {
-                // Duyệt từ bản ghi mới nhất (Cursor đã sắp xếp DESC trong DB)
                 while (cursor.moveToNext()) {
-                    // Column indices: 1:title, 2:message, 3:type, 5:is_read
                     String title = cursor.getString(1);
                     String message = cursor.getString(2);
                     String type = cursor.getString(3);
                     int isRead = cursor.getInt(5);
 
-                    // 2. Chỉ lấy thông báo loại ORDER để hiển thị ở mục này
                     if ("ORDER".equals(type)) {
                         list.add(new NotificationFood1(R.mipmap.ic_launcher, title, message));
-
-                        // Đếm số lượng thông báo chưa đọc (is_read == 0)
-                        if (isRead == 0) {
-                            unreadCount++;
+                        if (isRead == 0) unreadOrderCount++;
+                        if (latestOrderMsg.equals("Chưa có thông báo đơn hàng")) {
+                            latestOrderMsg = message;
                         }
-
-                        // Lấy nội dung của thông báo đầu tiên (mới nhất) để hiện ra màn hình chính
-                        if (list.size() == 1) {
-                            latestMessage = message;
-                        }
+                    } else if ("PROMOTION".equals(type)) {
+                        if (isRead == 0) unreadPromotionCount++;
                     }
                 }
                 cursor.close();
             }
         }
 
-        // 3. Cập nhật giao diện (UI)
+        // --- Cập nhật giao diện ---
         TextView tvThongBaoDonHang = findViewById(R.id.tvThongBaoDonHang);
         TextView tvThongBaoDonHangMoi = findViewById(R.id.tvThongBaoDonHangMoi);
+        TextView tvThongBaoKhuyenMaiMoi = findViewById(R.id.tvThongBaoKhuyenMaiMoi);
 
-        if (tvThongBaoDonHang != null) {
-            tvThongBaoDonHang.setText(latestMessage);
-        }
+        // Chấm đỏ Đơn hàng
+        if (tvThongBaoDonHang != null) tvThongBaoDonHang.setText(latestOrderMsg);
+        updateBadge(tvThongBaoDonHangMoi, unreadOrderCount);
 
-        if (tvThongBaoDonHangMoi != null) {
-            if (unreadCount > 0) {
-                // Hiển thị số lượng chưa đọc, nếu > 99 thì hiện 99+ cho đẹp
-                tvThongBaoDonHangMoi.setText(unreadCount > 99 ? "99+" : String.valueOf(unreadCount));
-                tvThongBaoDonHangMoi.setVisibility(View.VISIBLE);
+        // Chấm đỏ Khuyến mãi
+        updateBadge(tvThongBaoKhuyenMaiMoi, unreadPromotionCount);
+
+        if (adapter != null) adapter.notifyDataSetChanged();
+    }
+
+    // Hàm phụ để ẩn hiện cái chấm thông bao
+    private void updateBadge(TextView tvBadge, int count) {
+        if (tvBadge != null) {
+            if (count > 0) {
+                tvBadge.setText(count > 99 ? "99+" : String.valueOf(count));
+                tvBadge.setVisibility(View.VISIBLE);
             } else {
-                tvThongBaoDonHangMoi.setVisibility(View.GONE);
+                tvBadge.setVisibility(View.GONE);
             }
-        }
-
-        // 4. Cập nhật RecyclerView
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
         }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private TextView tvRevenue, tvOrders, tvUsers, tvMenuItems;
@@ -37,10 +36,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(new Intent(this, ManageOrderActivity.class)));
 
         btnManageUsers.setOnClickListener(v ->
-            startActivity(new Intent(this, ManageUserActivity.class)));
+            startActivity(new Intent(this, AccountManagementActivity.class)));
 
         btnSettings.setOnClickListener(v ->
-            Toast.makeText(this, "Cài đặt", Toast.LENGTH_SHORT).show());
+            startActivity(new Intent(this, ProfileActivity.class)));
     }
 
     private void loadStats() {

@@ -24,6 +24,24 @@ public class LoginActivity extends AppCompatActivity {
 
         db = new DataBaseHelper(this);
 
+        SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        boolean isLoggedIn = pref.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            int role = pref.getInt("role", 0);
+            if (role == 1) {
+                Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                startActivity(intent);
+            } else{
+                Intent intent = new Intent(LoginActivity.this, Home.class);
+                startActivity(intent);
+            }
+            finish();
+            return;
+        }
+
+        setContentView(R.layout.activity_login);
+
         // Ánh xạ các view
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);

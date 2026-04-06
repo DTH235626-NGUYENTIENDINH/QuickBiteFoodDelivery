@@ -72,6 +72,9 @@
         <activity 
             android:name=".ManageUserActivity"
             android:exported="false"/>
+        <activity
+            android:name=".AccountManagementActivity"
+            android:exported="false"/>
         <activity 
             android:name=".AdminDashboardActivity"
             android:exported="false"/>

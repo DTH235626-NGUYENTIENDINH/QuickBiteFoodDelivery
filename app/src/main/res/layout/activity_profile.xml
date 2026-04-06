@@ -335,7 +335,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnLogout"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="359dp"
                     android:layout_height="48dp"

@@ -15,13 +15,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quickbuyfooddelivery.DataBaseHelper;
 import com.example.quickbuyfooddelivery.ProfileActivity;
 import com.example.quickbuyfooddelivery.R;
 
 public class SettingActivity extends AppCompatActivity {
 
+    private TextView tvUserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,7 @@ public class SettingActivity extends AppCompatActivity {
         imgArrowBack.setOnClickListener(v -> {
             finish();
         });
+        DataBaseHelper db = new DataBaseHelper(this);
 
         View btnOpenDialog = findViewById(R.id.layoutXoaTK);
 
@@ -82,9 +86,12 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-
-
+        //Lấy tên người đùng
+        tvUserName = findViewById(R.id.tvTenNguoiDungHienThi);
+        android.content.SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        String currentUsername = pref.getString("username", "");
+        if (tvUserName != null) {
+            tvUserName.setText(currentUsername);
+        }
     }
-
-
 }

@@ -483,6 +483,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)}
         );
     }
+        //Đánh dấu thông báo đã đọc
+        public void markNotificationsAsRead(int userId, String type) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            android.content.ContentValues values = new android.content.ContentValues();
+            values.put("is_read", 1);
+
+            // Cập nhật theo UserID và Loại thông báo (ORDER hoặc PROMOTION)
+            db.update("notifications", values, "user_id = ? AND type = ?",
+                    new String[]{String.valueOf(userId), type});
+        }
 
     //Dat đơn
     public int placeOrder(int userId, int totalAmount, int voucherId, java.util.List<com.example.quickbuyfooddelivery.models.ShoppingCart> cartItems) {
