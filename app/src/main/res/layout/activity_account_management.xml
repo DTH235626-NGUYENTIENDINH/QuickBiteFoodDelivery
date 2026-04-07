@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="20dp"
-                    android:text="Danh sách tài khoản admin: "
+                    android:text="Danh sách tài khoản user: "
                     android:textColor="#8B1E1E"
                     android:textSize="14sp"
                     android:textStyle="bold"

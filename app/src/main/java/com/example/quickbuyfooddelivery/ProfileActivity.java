@@ -2,6 +2,7 @@ package com.example.quickbuyfooddelivery;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,102 +16,87 @@ import com.example.quickbuyfooddelivery.secondary_profile_activity.UserInformati
 import com.example.quickbuyfooddelivery.secondary_profile_activity.WishlistActivity;
 
 public class ProfileActivity extends BaseActivity {
-    private ConstraintLayout layoutCaiDat;
-    private ConstraintLayout layoutHoSo;
     private TextView tvName;
     private DataBaseHelper db;
-
-    private Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setupTaskbar(R.id.btnUser);
+
+        db = new DataBaseHelper(this);
+        tvName = findViewById(R.id.tvName);
+
         //Mở cài đặt
-        layoutCaiDat = findViewById(R.id.layoutCaiDat);
-        layoutCaiDat.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, SettingActivity.class);
-                startActivity(intent);
-            }
+        ConstraintLayout layoutCaiDat = findViewById(R.id.layoutCaiDat);
+        layoutCaiDat.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, SettingActivity.class);
+            startActivity(intent);
         });
+
         //Mở hồ sơ
-        layoutHoSo = findViewById(R.id.layoutProfile);
-        layoutHoSo.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, UserInformationActivity.class);
-                startActivity(intent);
-            }
+        ConstraintLayout layoutHoSo = findViewById(R.id.layoutProfile);
+        layoutHoSo.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, UserInformationActivity.class);
+            startActivity(intent);
         });
-        //Mở lịch sở mua hàng
+
+        //Mở lịch sử mua hàng
         View layoutLichSuMuaHang = findViewById(R.id.layoutLichSuMuaHang);
-        layoutLichSuMuaHang.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
-                startActivity(intent);
-            }
+        layoutLichSuMuaHang.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
+            startActivity(intent);
         });
+
         // Mở danh sách món yêu thích
         View layoutDanhSachMonYeuThich = findViewById(R.id.layoutDanhSachMonYeuThich);
-        layoutDanhSachMonYeuThich.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
-                startActivity(intent);
-            }
-        });
-        // Hiển thị tên người dùng đã đăng nhập
-        tvName = findViewById(R.id.tvName); // Tên ID của cái TextView chứa họ tên
-        db = new DataBaseHelper(this);
-
-        //Đằn xuất
-        android.widget.Button btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleLogout();
-            }
+        layoutDanhSachMonYeuThich.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
+            startActivity(intent);
         });
 
+        //Đăng xuất
+        Button btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(v -> handleLogout());
     }
-    // DÙNG HÀM onResume ĐỂ LUÔN CẬP NHẬT TÊN MỚI NHẤT
+
     @Override
     protected void onResume() {
         super.onResume();
+        updateUserDisplayName();
+    }
 
-        // lấy username người dùng hiện tại
+    private void updateUserDisplayName() {
         SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
-        String currentUsername = pref.getString("username", "");
+        String username = pref.getString("username", "");
 
-        if (!currentUsername.isEmpty()) {
-            // Dùng lại hàm getUserInfo
-            android.database.Cursor cursor = db.getUserInfo(currentUsername);
-
+        if (!username.isEmpty()) {
+            Cursor cursor = db.getUserInfo(username);
             if (cursor != null && cursor.moveToFirst()) {
-                // Ở hàm getUserInfo, full_name nằm ở cột đầu tiên (vị trí số 0)
-                String fullName = cursor.getString(0);
+                // Thử lấy full_name trước, nếu trống thì lấy username
+                int fullNameIndex = cursor.getColumnIndex("full_name");
+                String fullName = (fullNameIndex != -1) ? cursor.getString(fullNameIndex) : null;
 
-                if (fullName != null && !fullName.isEmpty()) {
-                    tvName.setText(fullName);
-                } else {
-                    tvName.setText("Người dùng");
+                if (fullName == null || fullName.trim().isEmpty()) {
+                    int usernameIndex = cursor.getColumnIndex("username");
+                    fullName = (usernameIndex != -1) ? cursor.getString(usernameIndex) : username;
                 }
+                tvName.setText(fullName);
                 cursor.close();
+            } else {
+                tvName.setText(username);
             }
         }
     }
-    //Xử lý đăng xuất
+
     private void handleLogout() {
-        android.content.SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
-        android.content.SharedPreferences.Editor editor = pref.edit();
+        SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();
-        android.content.Intent intent = new android.content.Intent(this, LoginActivity.class);
-        intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

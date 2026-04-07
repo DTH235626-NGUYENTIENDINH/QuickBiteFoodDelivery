@@ -6,6 +6,12 @@
     </style>
 
     <style name="Theme.QuickBuyFoodDelivery" parent="Base.Theme.QuickBuyFoodDelivery" />
+
     <style name="CircleImageStyle">
-        <item name="cornerSize">50%</item> </style>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="RoundedCornerImage">
+        <item name="cornerSize">12dp</item>
+    </style>
 </resources>
