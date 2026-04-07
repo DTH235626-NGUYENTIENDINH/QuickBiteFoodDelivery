@@ -8,6 +8,8 @@
     android:background="@drawable/o_vuong"
     android:padding="12dp">
 
+
+
     <ImageView
         android:id="@+id/imgFood"
         android:layout_width="100dp"
@@ -28,7 +30,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgFood" />
-
+    <CheckBox
+        android:id="@+id/chkWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/custom_wishlist_checkbox"
+        android:checked="true"
+        android:contentDescription="Xoá món ăn yêu thích"
+        app:buttonTint="@null"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/txtFoodPrice"
         android:layout_width="wrap_content"
