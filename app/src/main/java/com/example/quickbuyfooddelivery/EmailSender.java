@@ -37,7 +37,7 @@ public class EmailSender {
             // --- THIẾT KÊ GIAO DIỆN EMAIL (HTML) ---
             String htmlContent = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;'>" +
                     "    <div style='background-color: #FF9800; padding: 25px; text-align: center;'>" +
-                    "        <h1 style='color: white; margin: 0; font-size: 28px; text-transform: uppercase;'>QuickBiteFoodDelivery</h1>" +
+                    "        <h1 style='color: white; margin: 0; font-size: 28px; text-transform: uppercase;'>QuickBite Food 6Delivery</h1>" +
                     "    </div>" +
                     "    <div style='padding: 30px; background-color: #ffffff; text-align: center; color: #333333;'>" +
                     "        <h2 style='color: #222222;'>Xác thực tài khoản</h2>" +

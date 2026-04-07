@@ -1,7 +1,10 @@
 package com.example.quickbuyfooddelivery;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,7 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             btnHome.setOnClickListener(v -> {
                 if (!(this instanceof Home)) {
                     startActivity(new Intent(this, Home.class));
+                    overridePendingTransition(0, 0);
                     finish();
+                    overridePendingTransition(0, 0);
                 }
             });
         }
@@ -43,7 +48,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             btnFood.setOnClickListener(v -> {
                 if (!(this instanceof FoodActivity)) {
                     startActivity(new Intent(this, FoodActivity.class));
+                    overridePendingTransition(0, 0);
                     finish();
+                    overridePendingTransition(0, 0);
                 }
             });
         }
@@ -52,7 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             btnNotification.setOnClickListener(v -> {
                 if (!(this instanceof NotificationActivity)) {
                     startActivity(new Intent(this, NotificationActivity.class));
+                    overridePendingTransition(0, 0);
                     finish();
+                    overridePendingTransition(0, 0);
                 }
             });
         }
@@ -61,9 +70,54 @@ public abstract class BaseActivity extends AppCompatActivity {
             btnUser.setOnClickListener(v -> {
                 if (!(this instanceof ProfileActivity)) {
                     startActivity(new Intent(this, ProfileActivity.class));
+                    overridePendingTransition(0, 0);
                     finish();
+                    overridePendingTransition(0, 0);
                 }
             });
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        if (this instanceof Home) {
+            showExitDialog();
+        } else {
+            Intent intent = new Intent(this, Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    private void showExitDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_exit);
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
+        Button btnHuy = dialog.findViewById(R.id.btnHuy);
+        Button btnThoat = dialog.findViewById(R.id.btnThoat);
+
+        if (btnThoat != null) {
+            btnThoat.setOnClickListener(v -> {
+                dialog.dismiss();
+                finishAffinity();
+            });
+        }
+
+        if (btnHuy != null) {
+            btnHuy.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+        }
+
+        dialog.show();
     }
 }
