@@ -6,15 +6,23 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.HistoryActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.SettingActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.UserInformationActivity;
 
+import java.io.File;
+
 public class ProfileActivity extends BaseActivity {
     private TextView tvName;
     private DataBaseHelper db;
+
+    private ImageView avt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,7 @@ public class ProfileActivity extends BaseActivity {
 
         db = new DataBaseHelper(this);
         tvName = findViewById(R.id.tvName);
+        avt = findViewById(R.id.img_avt);
 
         // Mở cài đặt
         findViewById(R.id.layoutCaiDat).setOnClickListener(v -> 
@@ -64,6 +73,25 @@ public class ProfileActivity extends BaseActivity {
                     fullName = username;
                 }
                 tvName.setText(fullName);
+
+                int avatarPathIndex = cursor.getColumnIndex("avatarPath");
+                if(avatarPathIndex!=-1){
+                    String avatarPath = cursor.getString(avatarPathIndex);
+                    if (avatarPath != null && !avatarPath.isEmpty()) {
+                        File avatarFile = new File(avatarPath);
+                        if (avatarFile.exists()) {
+                            Glide.with(this)
+                                    .load(avatarFile)
+                                    .signature(new ObjectKey(avatarFile.lastModified())) // Fix lỗi cache ảnh cũ
+                                    .circleCrop()
+                                    .placeholder(R.mipmap.img_profile_avatar)
+                                    .into(avt);
+                        }
+                    }
+                    else{
+                        avt.setImageResource(R.mipmap.img_profile_avatar);
+                    }
+                }
                 cursor.close();
             }
         }

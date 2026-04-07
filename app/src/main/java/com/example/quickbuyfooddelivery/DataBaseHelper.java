@@ -30,7 +30,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "sex TEXT,"+
             "full_name TEXT," +
             "address TEXT," +
-            "role INTEGER DEFAULT 0" +
+            "role INTEGER DEFAULT 0," +
+            "avatarPath TEXT"  +
             ")");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS menu_item (" +
@@ -539,5 +540,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return list;
+    }
+
+    //Cập nhât avatar
+
+    public boolean updateAvatarPath(String username, String path) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("avatarPath", path); // Lưu cái đường dẫn file trong máy
+        return db.update("Users", values, "username = ?", new String[]{username}) > 0;
+    }
+
+    public boolean updateUserAvatar(String username, String avatarPath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put("avatarPath", avatarPath);
+        return db.update("users", v, "username = ?", new String[]{username}) > 0;
     }
 }
