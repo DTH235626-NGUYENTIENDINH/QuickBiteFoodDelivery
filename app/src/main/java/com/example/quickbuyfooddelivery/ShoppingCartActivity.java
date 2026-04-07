@@ -1,12 +1,15 @@
 package com.example.quickbuyfooddelivery;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
     private DataBaseHelper db;
     private List<Voucher> voucherList;
     private Voucher selectedVoucher = null;
+    private EditText edtHoTen, edtSDT, edtDiaChi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +42,40 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
         db = new DataBaseHelper(this);
         tvThanhTien = findViewById(R.id.tvThanhTien);
         RecyclerView recyclerView = findViewById(R.id.rcvItemCart);
-        
+        edtHoTen = findViewById(R.id.editTextHoTen);
+        edtSDT = findViewById(R.id.editTextSDT);
+        edtDiaChi = findViewById(R.id.editTextDiaChi);
+        tvThanhTien = findViewById(R.id.tvThanhTien);
         if (recyclerView != null) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             cartItems = CartManager.getCartList();
             adapter = new ShoppingCartAdapter(cartItems, this);
             recyclerView.setAdapter(adapter);
         }
-
+        
+        loadUserInformation();
         setupSpinner();
         updateTotal();
+    }
+
+    private void loadUserInformation() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
+        int currentUserId = sharedPreferences.getInt("user_id", -1);
+
+        if (currentUserId != -1) {
+            Cursor cursor = db.getUserInfo2(currentUserId);
+            if (cursor != null && cursor.moveToFirst()) {
+                String name = cursor.getString(0);
+                String phone = cursor.getString(1);
+                String address = cursor.getString(2);
+
+                if (name != null) edtHoTen.setText(name);
+                if (phone != null) edtSDT.setText(phone);
+                if (address != null) edtDiaChi.setText(address);
+
+                cursor.close();
+            }
+        }
     }
 
     @Override

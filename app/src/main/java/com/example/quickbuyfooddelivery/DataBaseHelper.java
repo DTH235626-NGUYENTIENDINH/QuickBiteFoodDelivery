@@ -361,6 +361,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM users WHERE username=?", new String[]{username});
     }
+    public Cursor getUserInfo2(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT full_name, phone, address FROM Users WHERE user_id = ?", new String[]{String.valueOf(userId)});
+    }
 
     public boolean updateUserInfo(String username, String fullName, String email, String address, String phone, String sex) {
         SQLiteDatabase db = this.getWritableDatabase();
