@@ -41,9 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TỔNG QUAN HÔM NAY"
-                android:textSize="11sp"
-                android:textColor="#999999"
                 android:textStyle="bold"
+                android:textSize="11sp"
                 android:layout_marginBottom="10dp"/>
 
             <!-- 4 thẻ thống kê -->
@@ -72,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:text="Doanh thu"
                             android:textSize="11sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/tvRevenue"
                             android:layout_width="wrap_content"
@@ -81,14 +80,6 @@
                             android:textSize="22sp"
                             android:textStyle="bold"
                             android:textColor="#222222"
-                            android:layout_marginTop="2dp"/>
-                        <TextView
-                            android:id="@+id/tvRevenueChange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="▲ hôm nay"
-                            android:textSize="10sp"
-                            android:textColor="#4CAF50"
                             android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -112,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:text="Đơn hàng"
                             android:textSize="11sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/tvOrders"
                             android:layout_width="wrap_content"
@@ -121,14 +112,6 @@
                             android:textSize="22sp"
                             android:textStyle="bold"
                             android:textColor="#222222"
-                            android:layout_marginTop="2dp"/>
-                        <TextView
-                            android:id="@+id/tvOrdersChange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="▲ 5 đơn"
-                            android:textSize="10sp"
-                            android:textColor="#4CAF50"
                             android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -152,7 +135,7 @@
                             android:layout_height="wrap_content"
                             android:text="Người dùng"
                             android:textSize="11sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/tvUsers"
                             android:layout_width="wrap_content"
@@ -161,14 +144,6 @@
                             android:textSize="22sp"
                             android:textStyle="bold"
                             android:textColor="#222222"
-                            android:layout_marginTop="2dp"/>
-                        <TextView
-                            android:id="@+id/tvUsersChange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="▲ 4 mới"
-                            android:textSize="10sp"
-                            android:textColor="#4CAF50"
                             android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -192,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:text="Món ăn"
                             android:textSize="11sp"
-                            android:textColor="#AAAAAA"/>
+                            android:textStyle="bold"/>
                         <TextView
                             android:id="@+id/tvMenuItems"
                             android:layout_width="wrap_content"
@@ -201,14 +176,6 @@
                             android:textSize="22sp"
                             android:textStyle="bold"
                             android:textColor="#222222"
-                            android:layout_marginTop="2dp"/>
-                        <TextView
-                            android:id="@+id/tvMenuChange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="đang bán"
-                            android:textSize="10sp"
-                            android:textColor="#AAAAAA"
                             android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

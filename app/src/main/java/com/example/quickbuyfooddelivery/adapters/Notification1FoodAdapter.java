@@ -34,53 +34,48 @@ public class Notification1FoodAdapter extends RecyclerView.Adapter<Notification1
         holder.imgLogo.setImageResource(item.getLogo());
         holder.tvTitle.setText(item.getTitle());
         holder.tvDetail.setText(item.getDetail());
-        // Chuyển title về chữ thường hết để dễ kiểm tra (đỡ lo viết hoa viết thường)
+        
         String title = item.getTitle().toLowerCase();
 
         if (title.contains("huỷ")) {
-            // Nếu có chữ "huỷ" -> Chữ màu đỏ
             holder.tvTitle.setTextColor(android.graphics.Color.RED);
         } else if (title.contains("thành công")) {
-            // Nếu có chữ "thành công" -> Chữ màu xanh lá cây
             holder.tvTitle.setTextColor(android.graphics.Color.parseColor("#4CAF50"));
         } else {
-            // TRƯỜNG HỢP CÒN LẠI: Trả về màu mặc định (VD: màu đen)
-            // Dòng này RẤT QUAN TRỌNG để khi cuộn danh sách lên xuống, các màu không bị lộn xộn
             holder.tvTitle.setTextColor(android.graphics.Color.BLACK);
         }
-        // Xử lý khi nhấn vào nút mũi tên
-        holder.btnExpand.setOnClickListener(v -> {
-            // Đảo ngược trạng thái đóng/mở
-            item.setExpanded(!item.isExpanded());
 
-            if (item.isExpanded()) {
-                holder.tvDetail.setMaxLines(Integer.MAX_VALUE); // Hiện đầy đủ chữ
-                holder.btnExpand.setRotation(180); // Xoay mũi tên lên
-            } else {
-                holder.tvDetail.setMaxLines(1); // Thu gọn lại thành ...
-                holder.btnExpand.setRotation(0); // Xoay mũi tên xuống
-            }
-        });
-        holder.layoutItem.setOnClickListener(v -> {
-            // Đảo ngược trạng thái đóng/mở
-            item.setExpanded(!item.isExpanded());
+        if (item.isExpanded()) {
+            holder.tvDetail.setMaxLines(Integer.MAX_VALUE);
+            if (holder.btnExpand != null) holder.btnExpand.setRotation(180);
+        } else {
+            holder.tvDetail.setMaxLines(1);
+            if (holder.btnExpand != null) holder.btnExpand.setRotation(0);
+        }
 
-            if (item.isExpanded()) {
-                holder.tvDetail.setMaxLines(Integer.MAX_VALUE); // Hiện đầy đủ chữ
-                holder.btnExpand.setRotation(180); // Xoay mũi tên lên
-            } else {
-                holder.tvDetail.setMaxLines(1); // Thu gọn lại thành ...
-                holder.btnExpand.setRotation(0); // Xoay mũi tên xuống
-            }
-        });
-
+        if (holder.btnExpand != null) {
+            holder.btnExpand.setOnClickListener(v -> toggleExpand(item, holder));
+        }
+        
+        if (holder.layoutItem != null) {
+            holder.layoutItem.setOnClickListener(v -> toggleExpand(item, holder));
+        }
     }
+
+    private void toggleExpand(NotificationFood1 item, NotificationFoodViewHolder holder) {
+        item.setExpanded(!item.isExpanded());
+        if (item.isExpanded()) {
+            holder.tvDetail.setMaxLines(Integer.MAX_VALUE);
+            if (holder.btnExpand != null) holder.btnExpand.setRotation(180);
+        } else {
+            holder.tvDetail.setMaxLines(1);
+            if (holder.btnExpand != null) holder.btnExpand.setRotation(0);
+        }
+    }
+
     @Override
     public int getItemCount() {
-        if (mList != null) {
-            return mList.size(); // Trả về số lượng thực tế của danh sách
-        }
-        return 0; // Nếu danh sách trống thì trả về 0
+        return mList != null ? mList.size() : 0;
     }
     public static class NotificationFoodViewHolder extends RecyclerView.ViewHolder {
         ImageView imgLogo;
@@ -97,5 +92,4 @@ public class Notification1FoodAdapter extends RecyclerView.Adapter<Notification1
             layoutItem = itemView.findViewById(R.id.item_notification_food);
         }
     }
-
 }
