@@ -66,10 +66,10 @@ public class FoodActivity extends BaseActivity {
     }
 
     private void setupCategoryButtons() {
-        btnAll.setOnClickListener(v -> updateCategoryUI("ALL"));
-        btnPizza.setOnClickListener(v -> updateCategoryUI("PIZZA"));
-        btnHamburger.setOnClickListener(v -> updateCategoryUI("HAMBURGER"));
-        btnDrinks.setOnClickListener(v -> updateCategoryUI("DRINK"));
+        if (btnAll != null) btnAll.setOnClickListener(v -> updateCategoryUI("ALL"));
+        if (btnPizza != null) btnPizza.setOnClickListener(v -> updateCategoryUI("PIZZA"));
+        if (btnHamburger != null) btnHamburger.setOnClickListener(v -> updateCategoryUI("HAMBURGER"));
+        if (btnDrinks != null) btnDrinks.setOnClickListener(v -> updateCategoryUI("DRINK"));
     }
 
     private void setupSearch() {
@@ -87,23 +87,31 @@ public class FoodActivity extends BaseActivity {
         DecimalFormat formatter = new DecimalFormat("#,###");
 
         for (Food item : rawList) {
-            // Lấy ID ảnh từ tên ảnh trong DB
-            int imageResId = getResources().getIdentifier(item.getImageName(), "drawable", getPackageName());
-            if (imageResId == 0) imageResId = R.drawable.img_pz1; // Ảnh mặc định nếu không tìm thấy
-
-            // Định dạng lại giá tiền có dấu chấm và "vnđ"
-            String formattedPrice = "";
-            try {
-                formattedPrice = formatter.format(Long.parseLong(item.getPrice())) + " vnđ";
-            } catch (Exception e) {
-                formattedPrice = item.getPrice() + " vnđ";
+            String imgName = item.getImageName();
+            if (imgName == null || imgName.isEmpty()) {
+                imgName = "img_pz1"; // Fallback
             }
 
+            // Lấy ID ảnh từ tên ảnh trong DB
+            int imageResId = getResources().getIdentifier(imgName, "drawable", getPackageName());
+            if (imageResId == 0) imageResId = R.drawable.img_pz1; 
+
+            // Định dạng lại giá tiền
+            String formattedPrice = "";
+            try {
+                String cleanPrice = item.getPrice().replaceAll("[^0-9]", "");
+                formattedPrice = formatter.format(Long.parseLong(cleanPrice)) + " vnđ";
+            } catch (Exception e) {
+                formattedPrice = item.getPrice();
+            }
+
+            // Quan trọng: Sử dụng constructor có đầy đủ imageName để không bị lỗi ở Adapter
             finalFoodList.add(new Food(
                     item.getName(),
                     formattedPrice,
                     imageResId,
-                    item.getCategory()
+                    item.getCategory(),
+                    imgName
             ));
         }
         return finalFoodList;

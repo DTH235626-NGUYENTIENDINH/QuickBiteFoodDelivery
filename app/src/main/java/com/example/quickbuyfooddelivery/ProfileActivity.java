@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.quickbuyfooddelivery.secondary_profile_activity.HistoryActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.SettingActivity;
 import com.example.quickbuyfooddelivery.secondary_profile_activity.UserInformationActivity;
-import com.example.quickbuyfooddelivery.secondary_profile_activity.WishlistActivity;
 
 public class ProfileActivity extends BaseActivity {
     private TextView tvName;
@@ -28,37 +25,24 @@ public class ProfileActivity extends BaseActivity {
         db = new DataBaseHelper(this);
         tvName = findViewById(R.id.tvName);
 
-        //Mở cài đặt
-        ConstraintLayout layoutCaiDat = findViewById(R.id.layoutCaiDat);
-        layoutCaiDat.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, SettingActivity.class);
-            startActivity(intent);
-        });
+        // Mở cài đặt
+        findViewById(R.id.layoutCaiDat).setOnClickListener(v -> 
+            startActivity(new Intent(ProfileActivity.this, SettingActivity.class)));
 
-        //Mở hồ sơ
-        ConstraintLayout layoutHoSo = findViewById(R.id.layoutProfile);
-        layoutHoSo.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, UserInformationActivity.class);
-            startActivity(intent);
-        });
+        // Mở hồ sơ
+        findViewById(R.id.layoutProfile).setOnClickListener(v -> 
+            startActivity(new Intent(ProfileActivity.this, UserInformationActivity.class)));
 
-        //Mở lịch sử mua hàng
-        View layoutLichSuMuaHang = findViewById(R.id.layoutLichSuMuaHang);
-        layoutLichSuMuaHang.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
-            startActivity(intent);
-        });
+        // Mở lịch sử mua hàng
+        findViewById(R.id.layoutLichSuMuaHang).setOnClickListener(v -> 
+            startActivity(new Intent(ProfileActivity.this, HistoryActivity.class)));
 
-        // Mở danh sách món yêu thích
-        View layoutDanhSachMonYeuThich = findViewById(R.id.layoutDanhSachMonYeuThich);
-        layoutDanhSachMonYeuThich.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, WishlistActivity.class);
-            startActivity(intent);
-        });
+        // Mở danh sách món yêu thích (Đổi sang FavoriteActivity)
+        findViewById(R.id.layoutDanhSachMonYeuThich).setOnClickListener(v -> 
+            startActivity(new Intent(ProfileActivity.this, FavoriteActivity.class)));
 
-        //Đăng xuất
-        Button btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(v -> handleLogout());
+        // Đăng xuất
+        findViewById(R.id.btnLogout).setOnClickListener(v -> handleLogout());
     }
 
     @Override
@@ -74,27 +58,19 @@ public class ProfileActivity extends BaseActivity {
         if (!username.isEmpty()) {
             Cursor cursor = db.getUserInfo(username);
             if (cursor != null && cursor.moveToFirst()) {
-                // Thử lấy full_name trước, nếu trống thì lấy username
                 int fullNameIndex = cursor.getColumnIndex("full_name");
                 String fullName = (fullNameIndex != -1) ? cursor.getString(fullNameIndex) : null;
-
                 if (fullName == null || fullName.trim().isEmpty()) {
-                    int usernameIndex = cursor.getColumnIndex("username");
-                    fullName = (usernameIndex != -1) ? cursor.getString(usernameIndex) : username;
+                    fullName = username;
                 }
                 tvName.setText(fullName);
                 cursor.close();
-            } else {
-                tvName.setText(username);
             }
         }
     }
 
     private void handleLogout() {
-        SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.clear();
-        editor.apply();
+        getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

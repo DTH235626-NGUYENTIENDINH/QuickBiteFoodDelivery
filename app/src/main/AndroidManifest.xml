@@ -24,6 +24,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FavoriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ShoppingCartActivity"
             android:exported="false" />
         <activity

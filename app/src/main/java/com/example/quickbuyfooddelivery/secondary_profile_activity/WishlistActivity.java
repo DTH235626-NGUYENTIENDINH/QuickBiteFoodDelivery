@@ -1,22 +1,18 @@
 package com.example.quickbuyfooddelivery.secondary_profile_activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quickbuyfooddelivery.DataBaseHelper;
+import com.example.quickbuyfooddelivery.FavoriteAdapter;
+import com.example.quickbuyfooddelivery.Food;
 import com.example.quickbuyfooddelivery.R;
-import com.example.quickbuyfooddelivery.adapters.WishlistAdapter;
-import com.example.quickbuyfooddelivery.models.Wishlist;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WishlistActivity extends AppCompatActivity {
@@ -24,22 +20,23 @@ public class WishlistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wishlist);
-        ImageView imgArrowBack = findViewById(R.id.imgArrowBack);
-        imgArrowBack.setOnClickListener(v -> {
-            finish();
-        });
+        setContentView(R.layout.activity_favorite);
 
-        RecyclerView rcvWishlist = findViewById(R.id.rcvWishlist);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rcvWishlist.setLayoutManager(layoutManager);
-        List<Wishlist> list = new ArrayList<>();
+        ImageView imgBack = findViewById(R.id.btnBackFav);
+        imgBack.setOnClickListener(v -> finish());
 
-        list.add(new Wishlist(R.drawable.img_7up, "7Up", "15.000 vnđ"));
-        list.add(new Wishlist(R.drawable.img_coca, "CocaCola", "15.000 vnđ"));
+        RecyclerView rcvWishlist = findViewById(R.id.rvFavorites);
+        rcvWishlist.setLayoutManager(new LinearLayoutManager(this));
 
-        WishlistAdapter adapter = new WishlistAdapter(list);
-        rcvWishlist.setAdapter(adapter);
+        SharedPreferences pref = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        int userId = pref.getInt("user_id", -1);
 
+        if (userId != -1) {
+            DataBaseHelper db = new DataBaseHelper(this);
+            List<Food> list = db.getFavoriteFoods(userId);
+
+            FavoriteAdapter adapter = new FavoriteAdapter(list, userId, this);
+            rcvWishlist.setAdapter(adapter);
+        }
     }
 }

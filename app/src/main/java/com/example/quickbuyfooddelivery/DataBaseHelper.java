@@ -13,7 +13,7 @@ import com.example.quickbuyfooddelivery.models.ShoppingCart;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "FoodDeliveryDB2.db";
-    private static final int DB_VERSION = 2; // Nâng cấp lên version 2 để tạo lại bảng mới
+    private static final int DB_VERSION = 3; // Nâng cấp để tạo bảng favorites
 
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -97,8 +97,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (user_id) REFERENCES users(user_id)" +
                 ")");
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS favorites (" +
+                "fav_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "user_id INTEGER," +
+                "item_name TEXT," +
+                "FOREIGN KEY (user_id) REFERENCES users(user_id)" +
+                ")");
+
         db.execSQL("INSERT INTO users (username, password, phone, email, sex, full_name, address, role) " +
-            "VALUES ('admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','0312121212','dinh_dth235626@student.agu.edu.vn', 'Nam', 'Quản Trị Viên','HCM', 1)");
+            "VALUES ('admin', '8d969eee76698219887552047034a0b29c50b930e5821758801fed1434195b9d','0312121212','dinh_dth235626@student.agu.edu.vn', 'Nam', 'Quản Trị Viên','HCM', 1)");
 
         seedData(db);
         Log.d("DB_DEBUG", "Khởi tạo DB thành công!");
@@ -147,6 +154,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS favorites");
         db.execSQL("DROP TABLE IF EXISTS notifications");
         db.execSQL("DROP TABLE IF EXISTS cart");
         db.execSQL("DROP TABLE IF EXISTS order_detail");
@@ -157,9 +165,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int[] loginExtended(String username, String password) {
+    public int[] loginExtended(String identifier, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT role, user_id FROM users WHERE username=? AND password=?", new String[]{username, password});
+        Cursor cursor = db.rawQuery("SELECT role, user_id FROM users WHERE (username=? OR email=?) AND password=?", 
+                new String[]{identifier, identifier, password});
         if (cursor != null && cursor.moveToFirst()) {
             int[] res = {cursor.getInt(0), cursor.getInt(1)};
             cursor.close();
@@ -205,7 +214,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int getTotalRevenue() {
         SQLiteDatabase db = this.getReadableDatabase();
-        // Chỉ tính những đơn hàng không bị hủy
         Cursor cursor = db.rawQuery("SELECT SUM(total_amount) FROM food_order WHERE status != 'cancelled'", null);
         int total = 0;
         if (cursor.moveToFirst()) {
@@ -426,8 +434,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("notifications", null, v);
     }
 
-    // --- ACCOUNT MANAGEMENT METHODS ---
-
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM users ORDER BY role DESC, username ASC", null);
@@ -465,7 +471,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.update("users", v, "user_id=?", new String[]{String.valueOf(id)});
     }
 
-    // Kiểm tra mật khẩu và câp nhật
     public boolean checkOldPassword(int userId, String hashedOldPass) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE user_id = ? AND password = ?",
@@ -481,7 +486,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.update("users", values, "user_id = ?", new String[]{String.valueOf(userId)}) > 0;
     }
 
-    //Kiểm tra email tồn tại
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", new String[]{email});
@@ -489,12 +493,51 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-    //Reset mật khẩu bằng mail
     public boolean updatePasswordByEmail(String email, String hashedPass) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("password", hashedPass); // Nhớ tên cột trong DB của bạn
-        // Cập nhật dựa trên Email
+        values.put("password", hashedPass);
         return db.update("users", values, "email = ?", new String[]{email}) > 0;
+    }
+
+    public boolean toggleFavorite(int userId, String itemName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM favorites WHERE user_id=? AND item_name=?", 
+            new String[]{String.valueOf(userId), itemName});
+        
+        if (cursor.getCount() > 0) {
+            db.delete("favorites", "user_id=? AND item_name=?", new String[]{String.valueOf(userId), itemName});
+            cursor.close();
+            return false;
+        } else {
+            ContentValues v = new ContentValues();
+            v.put("user_id", userId);
+            v.put("item_name", itemName);
+            db.insert("favorites", null, v);
+            cursor.close();
+            return true;
+        }
+    }
+
+    public boolean isFavorite(int userId, String itemName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM favorites WHERE user_id=? AND item_name=?", 
+            new String[]{String.valueOf(userId), itemName});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+    public List<Food> getFavoriteFoods(int userId) {
+        List<Food> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT m.item_name, m.price, m.category, m.image_name FROM menu_item m " +
+                     "JOIN favorites f ON m.item_name = f.item_name WHERE f.user_id = ?";
+        Cursor c = db.rawQuery(sql, new String[]{String.valueOf(userId)});
+        while (c.moveToNext()) {
+            list.add(new Food(c.getString(0), String.valueOf(c.getInt(1)), 0, c.getString(2), c.getString(3)));
+        }
+        c.close();
+        return list;
     }
 }
