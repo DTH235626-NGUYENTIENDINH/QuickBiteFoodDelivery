@@ -122,11 +122,11 @@ public class NotificationActivity extends BaseActivity {
         }
 
         // Nếu không có dữ liệu, thêm dữ liệu mẫu để test giao diện
-        if (!hasOrderData) {
+        /*if (!hasOrderData) {
             list.add(new NotificationFood1(R.mipmap.ic_launcher, "Đơn hàng thành công", "Đơn hàng Pepsi-N11T02 của bạn đã được giao thành công."));
             list.add(new NotificationFood1(R.mipmap.ic_launcher, "Đơn hàng đã huỷ", "Đơn hàng Hamburger-H01 đã bị huỷ do hết hàng."));
             latestOrderMsg = "Đơn hàng Pepsi-N11T02 của bạn đã được giao...";
-        }
+        }*/
 
         // --- Cập nhật giao diện ---
         TextView tvThongBaoDonHang = findViewById(R.id.tvThongBaoDonHang);
