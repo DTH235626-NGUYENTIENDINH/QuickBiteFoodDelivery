@@ -86,8 +86,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        String hashedPassword = HashUtils.hashPassword(password);
+
         Log.d("LOGIN_DEBUG", "Thử đăng nhập với: '" + username + "' / '" + password + "'");
-        int[] loginResult = db.loginExtended(username, password);
+        int[] loginResult = db.loginExtended(username, hashedPassword);
 
         if (loginResult != null) {
             int role = loginResult[0];

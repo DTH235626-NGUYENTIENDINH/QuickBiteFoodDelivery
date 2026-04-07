@@ -90,13 +90,13 @@ public class UserInformationActivity extends AppCompatActivity {
         Cursor cursor = db.getUserInfo(currentUsername);
         if (cursor != null && cursor.moveToFirst()) {
             // Lấy text gán vào EditText
-            edtHoTen.setText(cursor.getString(0));
-            edtEmail.setText(cursor.getString(1));
-            edtDiaChi.setText(cursor.getString(2) != null ? cursor.getString(2) : "");
+            edtHoTen.setText(cursor.getString(6));
+            edtEmail.setText(cursor.getString(4));
+            edtDiaChi.setText(cursor.getString(7) != null ? cursor.getString(7) : "");
             edtSDT.setText(cursor.getString(3) != null ? cursor.getString(3) : "");
 
             // Xử lý Spinner
-            String savedSex = cursor.getString(4);
+            String savedSex = cursor.getString(5);
             if (savedSex != null) {
                 for (int i = 0; i < genders.length; i++) {
                     if (genders[i].equals(savedSex)) {
@@ -126,7 +126,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
         if (isSuccess) {
             Toast.makeText(this, "Cập nhật hồ sơ thành công!", Toast.LENGTH_SHORT).show();
-            // Có thể dùng finish() ở đây nếu muốn cập nhật xong thì đóng màn hình
+            finish();
         } else {
             Toast.makeText(this, "Có lỗi xảy ra, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
         }

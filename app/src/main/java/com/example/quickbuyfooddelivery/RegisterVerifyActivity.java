@@ -55,6 +55,11 @@ public class RegisterVerifyActivity extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng nhập email hợp lệ", Toast.LENGTH_SHORT).show();
             return;
         }
+        DataBaseHelper db = new DataBaseHelper(this);
+        if (db.isEmailExists(email)) {
+            Toast.makeText(this, "Email này đã được đăng ký tài khoản!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         // Vô hiệu hóa nút để tránh khách bấm liên tục khi đang gửi
         tvSendCode.setEnabled(false);

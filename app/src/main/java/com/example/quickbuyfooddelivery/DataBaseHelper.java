@@ -23,10 +23,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (" +
             "user_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "username TEXT NOT NULL," +
+            "username TEXT NOT NULL UNIQUE," +
             "password TEXT NOT NULL," +
             "phone TEXT," +
-            "email TEXT," +
+            "email TEXT NOT NULL UNIQUE," +
             "sex TEXT,"+
             "full_name TEXT," +
             "address TEXT," +
@@ -98,7 +98,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ")");
 
         db.execSQL("INSERT INTO users (username, password, phone, email, sex, full_name, address, role) " +
-            "VALUES ('admin', '123','0312121212','admin@quickbuy.com', 'Nam', 'Quản Trị Viên','HCM', 1)");
+            "VALUES ('admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','0312121212','dinh_dth235626@student.agu.edu.vn', 'Nam', 'Quản Trị Viên','HCM', 1)");
 
         seedData(db);
         Log.d("DB_DEBUG", "Khởi tạo DB thành công!");
@@ -463,5 +463,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         v.put("email", email);
         v.put("role", role);
         db.update("users", v, "user_id=?", new String[]{String.valueOf(id)});
+    }
+
+    // Kiểm tra mật khẩu và câp nhật
+    public boolean checkOldPassword(int userId, String hashedOldPass) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE user_id = ? AND password = ?",
+                new String[]{String.valueOf(userId), hashedOldPass});
+        boolean result = cursor.getCount() > 0;
+        cursor.close();
+        return result;
+    }
+    public boolean updatePassword(int userId, String hashedNewPass) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", hashedNewPass);
+        return db.update("users", values, "user_id = ?", new String[]{String.valueOf(userId)}) > 0;
+    }
+
+    //Kiểm tra email tồn tại
+    public boolean isEmailExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", new String[]{email});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+    //Reset mật khẩu bằng mail
+    public boolean updatePasswordByEmail(String email, String hashedPass) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", hashedPass); // Nhớ tên cột trong DB của bạn
+        // Cập nhật dựa trên Email
+        return db.update("users", values, "email = ?", new String[]{email}) > 0;
     }
 }

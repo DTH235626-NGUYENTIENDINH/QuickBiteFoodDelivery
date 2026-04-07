@@ -62,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = edtRegPassword.getText().toString().trim();
         String confirmPassword = edtRegConfirmPassword.getText().toString().trim();
 
+
         if (TextUtils.isEmpty(username)) {
             edtUsername.setError("Vui lòng nhập tên đăng nhập");
             return;
@@ -79,8 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Tên đăng nhập đã tồn tại!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        boolean success = db.registerUser(username, password, Email);
+        String hashedPassword = HashUtils.hashPassword(password);
+        boolean success = db.registerUser(username, hashedPassword, Email);
         if (success) {
             AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
             builder.setTitle("Chúc mừng!");
