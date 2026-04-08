@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private TextView tvUserName;
     DataBaseHelper db;
+    Button logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,23 @@ public class SettingActivity extends AppCompatActivity {
         if (tvUserName != null) {
             tvUserName.setText(currentUsername);
         }
+
+        //Đăng xuất
+        logout = findViewById(R.id.btnDangXuat);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleLogout();
+            }
+        });
+    }
+
+    private void handleLogout() {
+        getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void DeleteAccount() {
