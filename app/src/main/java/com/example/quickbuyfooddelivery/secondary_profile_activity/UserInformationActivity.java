@@ -138,8 +138,13 @@ public class UserInformationActivity extends AppCompatActivity {
         String diachi = edtDiaChi.getText().toString().trim();
         String gioitinh = spinnerGioiTinh.getSelectedItem().toString();
 
-        if (hoten.isEmpty()) {
-            edtHoTen.setError("Không được để trống họ tên");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Email không đúng định dạng!");
+            return;
+        }
+        if (db.isEmailExistsExceptMe(email, currentUsername)) {
+            edtEmail.setError("Email này đã được người khác sử dụng!");
+            edtEmail.requestFocus();
             return;
         }
 
@@ -193,7 +198,7 @@ public class UserInformationActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri resultUri = UCrop.getOutput(result.getData());
                     if (resultUri != null) {
-                        // Cắt xong rồi! Giờ lưu đường dẫn vào DB
+                        //lưu đường dẫn vào DB
                         saveAvatarToDatabase(resultUri.getPath());
                     }
                 } else if (result.getResultCode() == UCrop.RESULT_ERROR) {

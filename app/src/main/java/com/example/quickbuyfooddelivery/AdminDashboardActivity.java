@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.quickbuyfooddelivery.secondary_profile_activity.SettingActivity;
+
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private TextView tvRevenue, tvOrders, tvUsers, tvMenuItems;
@@ -39,7 +42,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             startActivity(new Intent(this, AccountManagementActivity.class)));
 
         btnSettings.setOnClickListener(v ->
-            startActivity(new Intent(this, ProfileActivity.class)));
+            startActivity(new Intent(this, SettingActivity.class)));
     }
 
     private void loadStats() {
