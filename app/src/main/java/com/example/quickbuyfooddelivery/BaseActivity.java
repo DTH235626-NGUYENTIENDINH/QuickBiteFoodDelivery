@@ -56,7 +56,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
         Button btnThoat = dialog.findViewById(R.id.btnThoat);
+        Button btnHuy = dialog.findViewById(R.id.btnHuy);
         if (btnThoat != null) btnThoat.setOnClickListener(v -> finishAffinity());
         dialog.show();
+        if(btnHuy != null){
+            btnHuy.setOnClickListener(v -> dialog.dismiss());
+        }
     }
 }

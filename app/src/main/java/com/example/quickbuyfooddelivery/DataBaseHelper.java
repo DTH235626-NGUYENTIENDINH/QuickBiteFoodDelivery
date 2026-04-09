@@ -30,7 +30,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "sex TEXT,"+
             "full_name TEXT," +
             "address TEXT," +
-            "role INTEGER DEFAULT 0" +
+            "role INTEGER DEFAULT 0," +
+            "avatarPath TEXT"  +
             ")");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS menu_item (" +
@@ -105,7 +106,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ")");
 
         db.execSQL("INSERT INTO users (username, password, phone, email, sex, full_name, address, role) " +
-            "VALUES ('admin', '8d969eee76698219887552047034a0b29c50b930e5821758801fed1434195b9d','0312121212','dinh_dth235626@student.agu.edu.vn', 'Nam', 'Quản Trị Viên','HCM', 1)");
+            "VALUES ('admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','0312121212','dinh_dth235626@student.agu.edu.vn', 'Nam', 'Quản Trị Viên','HCM', 1)");
 
         seedData(db);
         Log.d("DB_DEBUG", "Khởi tạo DB thành công!");
@@ -493,6 +494,12 @@ public Voucher getVoucherByCode(String code) {
         db.delete("users", "user_id=?", new String[]{String.valueOf(userId)});
     }
 
+    public boolean deleteAccount(String currentUsername) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("users", "username=?", new String[]{currentUsername});
+        return true;
+    }
+
     public void updateUserRole(int userId, int role) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
@@ -538,6 +545,14 @@ public Voucher getVoucherByCode(String code) {
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email = ?", new String[]{email});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+    public boolean isEmailExistsExceptMe(String email, String currentUsername) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE email = ? AND username != ?",
+                new String[]{email, currentUsername});
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
@@ -588,5 +603,21 @@ public Voucher getVoucherByCode(String code) {
         }
         c.close();
         return list;
+    }
+
+    //Cập nhât avatar
+
+    public boolean updateAvatarPath(String username, String path) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("avatarPath", path); // Lưu cái đường dẫn file trong máy
+        return db.update("Users", values, "username = ?", new String[]{username}) > 0;
+    }
+
+    public boolean updateUserAvatar(String username, String avatarPath) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put("avatarPath", avatarPath);
+        return db.update("users", v, "username = ?", new String[]{username}) > 0;
     }
 }

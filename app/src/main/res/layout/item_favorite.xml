@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="12dp"
@@ -45,25 +46,29 @@
 
     <CheckBox
         android:id="@+id/chkFavHeart"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:button="@drawable/custom_wishlist_checkbox"
         android:checked="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp"/>
+        app:buttonTint="@null"
+        android:contentDescription="Xoá món ăn yêu thích"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddFromFav"
+        app:layout_constraintStart_toStartOf="@+id/btnAddFromFav"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
         android:id="@+id/btnAddFromFav"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:background="@drawable/bg_status_red"
-        android:src="@android:drawable/ic_input_add"
-        android:padding="4dp"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@null"
+        android:contentDescription="Thêm món ăn"
+        android:outlineAmbientShadowColor="@color/vàng"
+        android:outlineSpotShadowColor="@color/vàng"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="#FFFFFF"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"/>
+        app:srcCompat="@mipmap/ic_add"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

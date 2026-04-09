@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,17 +15,22 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.quickbuyfooddelivery.DataBaseHelper;
 import com.example.quickbuyfooddelivery.R;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import com.bumptech.glide.signature.ObjectKey;
+import com.yalantis.ucrop.UCrop;
+
 
 public class UserInformationActivity extends AppCompatActivity {
     // Khai báo các view nhập liệu
@@ -38,6 +44,7 @@ public class UserInformationActivity extends AppCompatActivity {
     //khai báo xử lý avartar---------------------------------
     private ShapeableImageView imgAvatar;
     private ImageView imgCamera;
+
     //--------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +112,20 @@ public class UserInformationActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            int avatarIndex = cursor.getColumnIndex("avatarPath");
+            if (avatarIndex != -1){
+                String avatarUrl = cursor.getString(avatarIndex);
+                if (avatarUrl != null && !avatarUrl.isEmpty()) {
+                    File file = new File(avatarUrl);
+                    Glide.with(this)
+                            .load(file)
+                            .signature(new ObjectKey(file.lastModified()))
+                            .circleCrop()
+                            .placeholder(R.mipmap.img_profile_avatar)
+                            .into(imgAvatar);
+                }
+            }
             cursor.close();
         }
     }
@@ -117,8 +138,13 @@ public class UserInformationActivity extends AppCompatActivity {
         String diachi = edtDiaChi.getText().toString().trim();
         String gioitinh = spinnerGioiTinh.getSelectedItem().toString();
 
-        if (hoten.isEmpty()) {
-            edtHoTen.setError("Không được để trống họ tên");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Email không đúng định dạng!");
+            return;
+        }
+        if (db.isEmailExistsExceptMe(email, currentUsername)) {
+            edtEmail.setError("Email này đã được người khác sử dụng!");
+            edtEmail.requestFocus();
             return;
         }
 
@@ -132,14 +158,67 @@ public class UserInformationActivity extends AppCompatActivity {
         }
     }
     // Định nghĩa bộ lọc chọn ảnh
+    // 1. Định nghĩa bộ lọc chọn ảnh từ Gallery
     private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                    Uri imageUri = result.getData().getData();
-                    // 2. Set cái ảnh người dùng vừa chọn vào Avatar tròn
-                    imgAvatar.setImageURI(imageUri);
+                    Uri sourceUri = result.getData().getData();
+                    if (sourceUri != null) {
+                        startCrop(sourceUri); // Bước tiếp theo: Đi cắt ảnh
+                    }
                 }
             }
     );
+
+    // 2. Hàm cấu hình giao diện Cắt ảnh
+    private void startCrop(Uri sourceUri) {
+        // Tạo file đích để lưu ảnh sau khi cắt (lưu vào bộ nhớ riêng của App)
+        String fileName = "avatar_" + currentUsername + ".jpg";
+        File destinationFile = new File(getFilesDir(), fileName);
+        Uri destinationUri = Uri.fromFile(destinationFile);
+
+        // Cấu hình uCrop (Cắt hình vuông)
+        UCrop.Options options = new UCrop.Options();
+        options.setCircleDimmedLayer(true); // Hiển thị khung mờ hình tròn (hợp với avatar tròn)
+        options.setCompressionQuality(90);  // Giảm dung lượng ảnh một chút cho nhẹ app
+        options.setToolbarTitle("Chỉnh sửa ảnh");
+
+        UCrop.of(sourceUri, destinationUri)
+                .withAspectRatio(1, 1) // Cắt tỉ lệ 1:1 (hình vuông)
+                .withMaxResultSize(500, 500) // Giới hạn kích thước ảnh đầu ra
+                .withOptions(options)
+                .start(this, cropLauncher); // Chuyển sang màn hình uCrop
+    }
+
+    // 3. Launcher nhận kết quả từ uCrop (để lưu vào SQLite)
+    private final ActivityResultLauncher<Intent> cropLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri resultUri = UCrop.getOutput(result.getData());
+                    if (resultUri != null) {
+                        //lưu đường dẫn vào DB
+                        saveAvatarToDatabase(resultUri.getPath());
+                    }
+                } else if (result.getResultCode() == UCrop.RESULT_ERROR) {
+                    Throwable cropError = UCrop.getError(result.getData());
+                    Toast.makeText(this, "Lỗi cắt ảnh: " + cropError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
+
+    // 4. Hàm lưu đường dẫn và cập nhật UI
+    private void saveAvatarToDatabase(String path) {
+        if (db.updateUserAvatar(currentUsername, path)) {
+            File file = new File(path);
+            // Dùng Glide hiện ngay lên (kèm Signature để tránh lỗi cache)
+            Glide.with(this)
+                    .load(file)
+                    .signature(new com.bumptech.glide.signature.ObjectKey(file.lastModified()))
+                    .circleCrop()
+                    .into(imgAvatar);
+            Toast.makeText(this, "Đã cập nhật ảnh đại diện!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

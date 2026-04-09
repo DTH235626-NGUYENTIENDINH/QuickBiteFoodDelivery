@@ -169,18 +169,20 @@ public class AccountManagementActivity extends AppCompatActivity {
                     String email = inputEmail.getText().toString().trim();
                     String pass = inputPass.getText().toString().trim();
 
-                    if (name.isEmpty()) return;
+                    if (name.isEmpty() || pass.isEmpty()) return;
+
+                    String HashPass = HashUtils.hashPassword(pass);
 
                     if (position == null) {
-                        db.addUser(name, pass, email, role);
+                        db.addUser(name, HashPass, email, role);
                     } else {
                         int id = role == 1 ? adminIds.get(position) : userIds.get(position);
                         if (role == 0) {
                             // User chỉ sửa tên và pass, giữ nguyên email cũ
                             String oldEmail = userEmails.get(position);
-                            db.updateUserFullWithPass(id, name, pass, oldEmail, role);
+                            db.updateUserFullWithPass(id, name, HashPass, oldEmail, role);
                         } else {
-                            db.updateUserFullWithPass(id, name, pass, email, role);
+                            db.updateUserFullWithPass(id, name, HashPass, email, role);
                         }
                     }
                     loadAccounts();

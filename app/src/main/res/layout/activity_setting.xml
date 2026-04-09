@@ -217,6 +217,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="360dp"
                     android:layout_height="96dp"
                     android:orientation="vertical"
@@ -275,6 +276,22 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnDangXuat"
+                    android:layout_width="349dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Đăng xuất"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/vàng"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgTC" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

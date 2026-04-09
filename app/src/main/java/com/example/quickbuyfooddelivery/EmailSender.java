@@ -41,7 +41,7 @@ public class EmailSender {
                     "    </div>" +
                     "    <div style='padding: 30px; background-color: #ffffff; text-align: center; color: #333333;'>" +
                     "        <h2 style='color: #222222;'>Xác thực tài khoản</h2>" +
-                    "        <p style='font-size: 16px;'>Cảm ơn bạn đã lựa chọn QuickBite. Vui lòng sử dụng mã dưới đây để hoàn tất quy trình đăng ký:</p>" +
+                    "        <p style='font-size: 16px;'>Cảm ơn bạn đã lựa chọn QuickBite. Vui lòng sử dụng mã dưới đây để hoàn tất quy trình xác minh tài khoản:</p>" +
                     "        <div style='background-color: #f8f9fa; border: 2px dashed #FF9800; display: inline-block; padding: 15px 40px; margin: 25px 0; border-radius: 8px;'>" +
                     "            <span style='font-size: 36px; font-weight: bold; color: #FF9800; letter-spacing: 6px;'>" + otpCode + "</span>" +
                     "        </div>" +

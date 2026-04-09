@@ -2,6 +2,7 @@ package com.example.quickbuyfooddelivery.secondary_profile_activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -14,17 +15,21 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quickbuyfooddelivery.DataBaseHelper;
+import com.example.quickbuyfooddelivery.LoginActivity;
 import com.example.quickbuyfooddelivery.ProfileActivity;
 import com.example.quickbuyfooddelivery.R;
 
 public class SettingActivity extends AppCompatActivity {
 
     private TextView tvUserName;
+    DataBaseHelper db;
+    Button logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,7 @@ public class SettingActivity extends AppCompatActivity {
         imgArrowBack.setOnClickListener(v -> {
             finish();
         });
-        DataBaseHelper db = new DataBaseHelper(this);
+        db = new DataBaseHelper(this);
 
         View btnOpenDialog = findViewById(R.id.layoutXoaTK);
 
@@ -58,7 +63,8 @@ public class SettingActivity extends AppCompatActivity {
                 btnXoa.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v1) {
-                        Toast.makeText(SettingActivity.this, "Đã xác nhận xoá! (Chờ code xử lý thật)", Toast.LENGTH_SHORT).show();
+                        //Xóa tài khoản
+                        DeleteAccount();
                         dialog.dismiss();
                     }
                 });
@@ -92,6 +98,39 @@ public class SettingActivity extends AppCompatActivity {
         String currentUsername = pref.getString("username", "");
         if (tvUserName != null) {
             tvUserName.setText(currentUsername);
+        }
+
+        //Đăng xuất
+        logout = findViewById(R.id.btnDangXuat);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleLogout();
+            }
+        });
+    }
+
+    private void handleLogout() {
+        getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void DeleteAccount() {
+        SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        String currentUsername = pref.getString("username", "");
+        db = new DataBaseHelper(this);
+        if (db.deleteAccount(currentUsername)) {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.apply();
+            Toast.makeText(this, "Xoá tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 }
