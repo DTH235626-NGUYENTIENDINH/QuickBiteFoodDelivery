@@ -20,32 +20,54 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
     @NonNull
     @Override
     public VoucherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.item_voucher, parent, false);
         return new VoucherViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VoucherViewHolder holder, int position) {
-        Voucher voucher = voucherList.get(position);
-        holder.txtTitle.setText(voucher.getTitle());
-        holder.txtDescription.setText(voucher.getDescription());
-        holder.imgLogo.setImageResource(voucher.getImageResId());
+        Voucher v = voucherList.get(position);
+
+        holder.txtTitle.setText(v.getTitle());
+        holder.txtDescription.setText(v.getDescription());
+        holder.txtCode.setText(v.code);
+
+        // Trạng thái còn lượt dùng không
+        if (v.isAvailable()) {
+            holder.txtStatus.setText("Còn " + (v.usageLimit - v.usedCount) + " lượt");
+            holder.txtStatus.setTextColor(0xFF2E7D32);
+        } else {
+            holder.txtStatus.setText("Hết lượt");
+            holder.txtStatus.setTextColor(0xFFB71C1C);
+        }
+
+        // Ngày hết hạn
+        if (v.expiryDate != null && !v.expiryDate.isEmpty()) {
+            holder.txtExpiry.setText("HSD: " + v.expiryDate);
+        } else {
+            holder.txtExpiry.setText("Không giới hạn");
+        }
+
+        // Icon mặc định
+        holder.imgLogo.setImageResource(R.mipmap.ico_sale_nof);
     }
 
     @Override
-    public int getItemCount() {
-        return voucherList.size();
-    }
+    public int getItemCount() { return voucherList.size(); }
 
     static class VoucherViewHolder extends RecyclerView.ViewHolder {
         ImageView imgLogo;
-        TextView txtTitle, txtDescription;
+        TextView  txtTitle, txtDescription, txtCode, txtStatus, txtExpiry;
 
-        public VoucherViewHolder(@NonNull View itemView) {
+        VoucherViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgLogo = itemView.findViewById(R.id.imgVoucherLogo);
-            txtTitle = itemView.findViewById(R.id.txtVoucherTitle);
+            imgLogo        = itemView.findViewById(R.id.imgVoucherLogo);
+            txtTitle       = itemView.findViewById(R.id.txtVoucherTitle);
             txtDescription = itemView.findViewById(R.id.txtVoucherDescription);
+            txtCode        = itemView.findViewById(R.id.txtVoucherCode);
+            txtStatus      = itemView.findViewById(R.id.txtVoucherStatus);
+            txtExpiry      = itemView.findViewById(R.id.txtVoucherExpiry);
         }
     }
 }

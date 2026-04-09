@@ -1,44 +1,41 @@
 package com.example.quickbuyfooddelivery;
 
 public class Voucher {
-    private int id;
-    private String code;
-    private int discountPercent;
-    private double maxDiscount;
-    private double minOrder;
+    public int    id;
+    public String code;
+    public int    discountPercent;
+    public double maxDiscount;
+    public double minOrder;
+    public String expiryDate;
+    public int    usageLimit;
+    public int    usedCount;
 
-    private String title;
-    private String description;
-    private int imageResId;
-
-    public Voucher(int id, String code, int discountPercent, double maxDiscount, double minOrder) {
-        this.id = id;
-        this.code = code;
+    public Voucher(int id, String code, int discountPercent,
+                   double maxDiscount, double minOrder,
+                   String expiryDate, int usageLimit, int usedCount) {
+        this.id              = id;
+        this.code            = code;
         this.discountPercent = discountPercent;
-        this.maxDiscount = maxDiscount;
-        this.minOrder = minOrder;
+        this.maxDiscount     = maxDiscount;
+        this.minOrder        = minOrder;
+        this.expiryDate      = expiryDate;
+        this.usageLimit      = usageLimit;
+        this.usedCount       = usedCount;
     }
 
-    public Voucher(String title, String description, int imageResId) {
-        this.title = title;
-        this.description = description;
-        this.imageResId = imageResId;
+    // Tiêu đề hiển thị
+    public String getTitle() {
+        return "GIẢM " + discountPercent + "%";
     }
 
-    public int getId() { return id; }
-    public String getCode() { return code; }
-    public int getDiscountPercent() { return discountPercent; }
-    public double getMaxDiscount() { return maxDiscount; }
-    public double getMinOrder() { return minOrder; }
+    // Mô tả hiển thị
+    public String getDescription() {
+        return "Đơn từ " + String.format("%,.0f", minOrder) + "đ" +
+               " - Giảm tối đa " + String.format("%,.0f", maxDiscount) + "đ";
+    }
 
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public int getImageResId() { return imageResId; }
-
-    @Override
-    public String toString() {
-        if (id == -1) return code;
-        if (code != null) return code + " - Giảm " + discountPercent + "%";
-        return title;
+    // Còn lượt dùng không
+    public boolean isAvailable() {
+        return usedCount < usageLimit;
     }
 }
