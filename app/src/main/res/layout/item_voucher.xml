@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imgVoucherLogo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@android:color/transparent"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ico_sale_nof" />
+
+        <TextView
+            android:id="@+id/txtVoucherTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="#E6A100"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgVoucherLogo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="GIẢM 10%" />
+
+        <TextView
+            android:id="@+id/txtVoucherDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#424242"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+            app:layout_constraintTop_toBottomOf="@id/txtVoucherTitle"
+            tools:text="Đơn từ 100,000đ - Giảm tối đa 50,000đ" />
+
+        <TextView
+            android:id="@+id/txtVoucherCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#757575"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+            app:layout_constraintTop_toBottomOf="@id/txtVoucherDescription"
+            tools:text="KM10" />
+
+        <TextView
+            android:id="@+id/txtVoucherStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+            app:layout_constraintTop_toBottomOf="@id/txtVoucherCode"
+            tools:text="Còn 10 lượt" />
+
+        <TextView
+            android:id="@+id/txtVoucherExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#9E9E9E"
+            android:textSize="11sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@id/txtVoucherTitle"
+            app:layout_constraintTop_toBottomOf="@id/txtVoucherStatus"
+            tools:text="Không giới hạn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:background="@color/white">
+
+        <!-- Ảnh món ăn -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgDoAn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+            app:srcCompat="@drawable/img_hbg3" />
+
+        <!-- Tên món ăn -->
+        <TextView
+            android:id="@+id/tvTenMon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:text="Hamburger Cá"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvTrangThai"
+            app:layout_constraintStart_toEndOf="@+id/imgDoAn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Trạng thái đơn hàng -->
+        <TextView
+            android:id="@+id/tvTrangThai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_status_orange"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="Hoàn thành"
+            android:textColor="@color/gold"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Số lượng -->
+        <TextView
+            android:id="@+id/tvSoLuong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Số lượng: x1"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvTenMon"
+            app:layout_constraintTop_toBottomOf="@+id/tvTenMon" />
+
+        <!-- Giá đơn vị -->
+        <TextView
+            android:id="@+id/tvDonGia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="21.000đ"
+            android:textColor="@color/brown"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvTenMon"
+            app:layout_constraintTop_toBottomOf="@+id/tvSoLuong" />
+
+        <!-- Đường kẻ chia cắt nhẹ -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="#F0F0F0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDoAn" />
+
+        <!-- Ngày mua -->
+        <TextView
+            android:id="@+id/tvNgayMua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="19/03/2024"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <!-- Tổng tiền đơn hàng -->
+        <TextView
+            android:id="@+id/tvTongTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng: 21.000đ"
+            android:textColor="@color/red_accent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNgayMua"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvNgayMua" />
+
+        <!-- Các nút bấm hành động -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTongTien">
+
+            <Button
+                android:id="@+id/btnHuyDon"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Hủy đơn"
+                android:textAllCaps="false"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/gray" />
+
+            <Button
+                android:id="@+id/btnMuaLai"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/gold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Mua lại"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

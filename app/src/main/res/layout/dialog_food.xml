@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm món ăn"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#3E2723"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Preview Ảnh -->
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_pz1"
+            android:layout_marginBottom="12dp"
+            android:background="#F5F5F5"
+            android:padding="4dp"/>
+
+        <!-- Tên món -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tên món ăn" android:textSize="12sp" android:textColor="#999"/>
+        <EditText
+            android:id="@+id/edtFoodName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tên món..."
+            android:background="@drawable/background_search"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <!-- Giá -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Giá (đồng)" android:textSize="12sp" android:textColor="#999"/>
+        <EditText
+            android:id="@+id/edtFoodPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập giá..."
+            android:inputType="number"
+            android:background="@drawable/background_search"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:maxLines="1"/>
+
+        <!-- Danh mục -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Danh mục" android:textSize="12sp" android:textColor="#999"/>
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_search"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Tên ảnh -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tên file ảnh (trong drawable)" android:textSize="12sp" android:textColor="#999"/>
+        <EditText
+            android:id="@+id/edtImageName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="vd: img_pz1, img_hbg1..."
+            android:background="@drawable/background_search"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <!-- Mô tả -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mô tả" android:textSize="12sp" android:textColor="#999"/>
+        <EditText
+            android:id="@+id/edtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mô tả món ăn..."
+            android:background="@drawable/background_search"
+            android:padding="10dp"
+            android:minLines="2"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <!-- Trạng thái -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Đang bán"
+                android:textSize="13sp"
+                android:textColor="#3E2723"/>
+            <Switch
+                android:id="@+id/switchAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+        </LinearLayout>
+
+        <!-- Nút -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Hủy"
+                android:textColor="#777777"
+                android:backgroundTint="#F0F0F0"
+                app:cornerRadius="12dp"/>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Lưu"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#7B1F1F"
+                app:cornerRadius="12dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

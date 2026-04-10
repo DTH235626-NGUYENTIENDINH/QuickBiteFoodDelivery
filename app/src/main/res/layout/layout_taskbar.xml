@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutTaskbar"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/o_vuong"
+    android:elevation="8dp">
+
+    <!-- Home -->
+    <ImageButton
+        android:id="@+id/btnHome"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_home"
+        android:contentDescription="Trang chủ"
+        app:tint="#880E0F"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnFood"
+        app:layout_constraintHorizontal_chainStyle="spread" />
+
+    <!-- Food -->
+    <ImageButton
+        android:id="@+id/btnFood"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_food"
+        android:contentDescription="Đồ ăn"
+        app:tint="#880E0F"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnHome"
+        app:layout_constraintEnd_toStartOf="@id/btnNotification" />
+
+    <!-- Notification -->
+    <ImageButton
+        android:id="@+id/btnNotification"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_1_notification"
+        android:contentDescription="Thông báo"
+        app:tint="#880E0F"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnFood"
+        app:layout_constraintEnd_toStartOf="@id/btnUser" />
+
+    <!-- User -->
+    <ImageButton
+        android:id="@+id/btnUser"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:padding="12dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_1_user"
+        android:contentDescription="Tài khoản"
+        app:tint="#880E0F"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNotification"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

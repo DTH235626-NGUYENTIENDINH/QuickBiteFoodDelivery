@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="#ffffff"
+    android:layout_marginBottom="3dp"
+    >
+
+    <ImageView
+        android:id="@+id/imgAnhMon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_hbg2" />
+
+    <TextView
+        android:id="@+id/tvTenMon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:text="Hamburger cá"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imgAnhMon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDonGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="28.000 vnđ"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTenMon" />
+
+    <ImageButton
+        android:id="@+id/imgbtnAdd"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:contentDescription="Thêm món ăn"
+        android:outlineAmbientShadowColor="@color/gold"
+        android:outlineSpotShadowColor="@color/gold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/ic_add"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <CheckBox
+        android:id="@+id/chkWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/custom_wishlist_checkbox"
+        android:checked="true"
+        app:buttonTint="@null"
+        android:contentDescription="Xoá món ăn yêu thích"
+        app:layout_constraintEnd_toEndOf="@+id/imgbtnAdd"
+        app:layout_constraintStart_toStartOf="@+id/imgbtnAdd"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

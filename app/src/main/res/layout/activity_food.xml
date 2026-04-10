@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/txtTimKiemHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Tìm kiếm"
+        android:textColor="@color/gold"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtMonYeuThichHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Món Bạn Yêu Thích"
+        android:textColor="@color/brown"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTimKiemHeader" />
+
+    <ImageView
+        android:id="@+id/btnCart"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/img_circle"
+        app:tint="@color/red_accent" />
+
+    <ImageView
+        android:id="@+id/imgeGiohang"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:elevation="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@id/btnCart"
+        app:layout_constraintEnd_toEndOf="@id/btnCart"
+        app:layout_constraintStart_toStartOf="@id/btnCart"
+        app:layout_constraintTop_toTopOf="@id/btnCart"
+        app:srcCompat="@mipmap/ic_shoppingcart"
+        app:tint="@color/gold" />
+
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_search"
+        android:paddingHorizontal="20dp"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@id/txtMonYeuThichHeader" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/edtSearch">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnCategoryAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/o1"
+                android:backgroundTint="@color/gold"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="8dp"
+                android:text="All"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnCategoryPizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/o2"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp"
+                android:text="Pizza"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/btnCategoryHamburger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/o2"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp"
+                android:text="Hamburger"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/btnCategoryDrinks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/o3"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp"
+                android:text="Drinks"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvFood"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutTaskbarContainer"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScrollView" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutTaskbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include
+            android:id="@+id/taskbar"
+            layout="@layout/layout_taskbar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/btnSearchAction"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@id/edtSearch"
+        app:layout_constraintEnd_toEndOf="@id/edtSearch"
+        app:layout_constraintTop_toTopOf="@id/edtSearch"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@mipmap/ic_search"
+        app:tint="@color/brown" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

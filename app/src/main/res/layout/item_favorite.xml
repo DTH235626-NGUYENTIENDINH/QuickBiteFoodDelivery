@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="1dp"
+    android:background="#FFF9E1">
+
+    <ImageView
+        android:id="@+id/imgFavFood"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/img_pz1" />
+
+    <TextView
+        android:id="@+id/txtFavName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Food Name"
+        android:textColor="#5D4037"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/chkFavHeart"
+        app:layout_constraintStart_toEndOf="@id/imgFavFood"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtFavPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="15.000 vnđ"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/txtFavName"
+        app:layout_constraintTop_toBottomOf="@id/txtFavName" />
+
+    <CheckBox
+        android:id="@+id/chkFavHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/custom_wishlist_checkbox"
+        android:checked="true"
+        app:buttonTint="@null"
+        android:contentDescription="Xoá món ăn yêu thích"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddFromFav"
+        app:layout_constraintStart_toStartOf="@+id/btnAddFromFav"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/btnAddFromFav"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@null"
+        android:contentDescription="Thêm món ăn"
+        android:outlineAmbientShadowColor="@color/gold"
+        android:outlineSpotShadowColor="@color/gold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/ic_add"
+        tools:ignore="TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
