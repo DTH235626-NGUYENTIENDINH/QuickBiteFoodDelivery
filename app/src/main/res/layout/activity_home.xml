@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="20dp"
                 android:text="SẢN PHẨM BÁN CHẠY"
-                android:textColor="@color/nâu"
+                android:textColor="@color/brown"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +119,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="20dp"
                 android:text="MÓN MỚI"
-                android:textColor="@color/nâu"
+                android:textColor="@color/brown"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -50,7 +50,7 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
             android:text="Hoàn thành"
-            android:textColor="@color/vàng"
+            android:textColor="@color/gold"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Số lượng: x1"
-            android:textColor="@color/xám"
+            android:textColor="@color/gray"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tvTenMon"
             app:layout_constraintTop_toBottomOf="@+id/tvTenMon" />
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="21.000đ"
-            android:textColor="@color/nâu"
+            android:textColor="@color/brown"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tvTenMon"
             app:layout_constraintTop_toBottomOf="@+id/tvSoLuong" />
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="19/03/2024"
-            android:textColor="@color/xám"
+            android:textColor="@color/gray"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tổng: 21.000đ"
-            android:textColor="@color/đỏ"
+            android:textColor="@color/red_accent"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tvNgayMua"
@@ -136,16 +136,16 @@
                 android:insetBottom="0dp"
                 android:text="Hủy đơn"
                 android:textAllCaps="false"
-                android:textColor="@color/xám"
+                android:textColor="@color/gray"
                 android:textSize="12sp"
                 app:cornerRadius="8dp"
-                app:strokeColor="@color/xám" />
+                app:strokeColor="@color/gray" />
 
             <Button
                 android:id="@+id/btnMuaLai"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:backgroundTint="@color/vàng"
+                android:backgroundTint="@color/gold"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="Mua lại"

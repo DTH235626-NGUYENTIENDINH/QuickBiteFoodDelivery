@@ -118,8 +118,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         insertMenuItem(db, "Hamburger Gà", 28000, "HAMBURGER", "img_hbg1");
         insertMenuItem(db, "Pepsi", 15000, "DRINK", "img_pepsi");
         
-        insertVoucher(db, "KM10", 10, 50000, 100000);
-        insertVoucher(db, "FREESHIP", 100, 15000, 50000);
     }
 
     private void insertMenuItem(SQLiteDatabase db, String name, int price, String category, String img) {
@@ -132,75 +130,88 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     // Lấy tất cả voucher
-public List<Voucher> getAllVouchers() {
-    List<Voucher> list = new ArrayList<>();
-    SQLiteDatabase db = this.getReadableDatabase();
-    Cursor cursor = db.rawQuery(
-        "SELECT id, code, discount_percent, max_discount, " +
-        "min_order, expiry_date, usage_limit, used_count " +
-        "FROM vouchers ORDER BY id DESC", null
-    );
-    while (cursor.moveToNext()) {
-        list.add(new Voucher(
-            cursor.getInt(0),
-            cursor.getString(1),
-            cursor.getInt(2),
-            cursor.getDouble(3),
-            cursor.getDouble(4),
-            cursor.getString(5),
-            cursor.getInt(6),
-            cursor.getInt(7)
-        ));
-    }
-    cursor.close();
-    return list;
-}
-
-// Thêm voucher
-public boolean addVoucher(String code, int discountPercent,
-                          double maxDiscount, double minOrder,
-                          String expiryDate, int usageLimit) {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put("code",             code);
-    values.put("discount_percent", discountPercent);
-    values.put("max_discount",     maxDiscount);
-    values.put("min_order",        minOrder);
-    values.put("expiry_date",      expiryDate);
-    values.put("usage_limit",      usageLimit);
-    values.put("used_count",       0);
-    long result = db.insert("vouchers", null, values);
-    return result != -1;
-}
-
-// Xóa voucher
-public void deleteVoucher(int id) {
-    SQLiteDatabase db = this.getWritableDatabase();
-    db.delete("vouchers", "id=?", new String[]{String.valueOf(id)});
-}
-
-// Kiểm tra voucher hợp lệ
-public Voucher getVoucherByCode(String code) {
-    SQLiteDatabase db = this.getReadableDatabase();
-    Cursor cursor = db.rawQuery(
-        "SELECT id, code, discount_percent, max_discount, " +
-        "min_order, expiry_date, usage_limit, used_count " +
-        "FROM vouchers WHERE code=?",
-        new String[]{code}
-    );
-    if (cursor.moveToFirst()) {
-        Voucher v = new Voucher(
-            cursor.getInt(0), cursor.getString(1),
-            cursor.getInt(2), cursor.getDouble(3),
-            cursor.getDouble(4), cursor.getString(5),
-            cursor.getInt(6), cursor.getInt(7)
+    public List<Voucher> getAllVouchers() {
+        List<Voucher> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT id, code, discount_percent, max_discount, " +
+            "min_order, expiry_date, usage_limit, used_count " +
+            "FROM vouchers ORDER BY id DESC", null
         );
+        while (cursor.moveToNext()) {
+            list.add(new Voucher(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getInt(2),
+                cursor.getDouble(3),
+                cursor.getDouble(4),
+                cursor.getString(5),
+                cursor.getInt(6),
+                cursor.getInt(7)
+            ));
+        }
         cursor.close();
-        return v;
+        return list;
     }
-    cursor.close();
-    return null;
-}
+
+    private void insertVoucher(SQLiteDatabase db, String code,
+                            int discountPercent, double maxDiscount,
+                            double minOrder) {
+        ContentValues values = new ContentValues();
+        values.put("code",             code);
+        values.put("discount_percent", discountPercent);
+        values.put("max_discount",     maxDiscount);
+        values.put("min_order",        minOrder);
+        values.put("expiry_date",      "2025-12-31");
+        values.put("usage_limit",      100);
+        values.put("used_count",       0);
+        db.insert("vouchers", null, values);
+    }
+    // Thêm voucher
+    public boolean addVoucher(String code, int discountPercent,
+                            double maxDiscount, double minOrder,
+                            String expiryDate, int usageLimit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("code",             code);
+        values.put("discount_percent", discountPercent);
+        values.put("max_discount",     maxDiscount);
+        values.put("min_order",        minOrder);
+        values.put("expiry_date",      expiryDate);
+        values.put("usage_limit",      usageLimit);
+        values.put("used_count",       0);
+        long result = db.insert("vouchers", null, values);
+        return result != -1;
+    }
+
+    // Xóa voucher
+    public void deleteVoucher(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("vouchers", "id=?", new String[]{String.valueOf(id)});
+    }
+
+    // Kiểm tra voucher hợp lệ
+    public Voucher getVoucherByCode(String code) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+            "SELECT id, code, discount_percent, max_discount, " +
+            "min_order, expiry_date, usage_limit, used_count " +
+            "FROM vouchers WHERE code=?",
+            new String[]{code}
+        );
+        if (cursor.moveToFirst()) {
+            Voucher v = new Voucher(
+                cursor.getInt(0), cursor.getString(1),
+                cursor.getInt(2), cursor.getDouble(3),
+                cursor.getDouble(4), cursor.getString(5),
+                cursor.getInt(6), cursor.getInt(7)
+            );
+            cursor.close();
+            return v;
+        }
+        cursor.close();
+        return null;
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

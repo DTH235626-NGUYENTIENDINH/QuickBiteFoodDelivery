@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -64,8 +64,8 @@
         android:layout_marginBottom="8dp"
         android:background="@null"
         android:contentDescription="Thêm món ăn"
-        android:outlineAmbientShadowColor="@color/vàng"
-        android:outlineSpotShadowColor="@color/vàng"
+        android:outlineAmbientShadowColor="@color/gold"
+        android:outlineSpotShadowColor="@color/gold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@mipmap/ic_add"

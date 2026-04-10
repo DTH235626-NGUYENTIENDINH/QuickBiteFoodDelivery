@@ -118,7 +118,7 @@ public class FoodActivity extends BaseActivity {
     }
 
     private void updateCategoryUI(String category) {
-        int selectedColor = ContextCompat.getColor(this, R.color.vàng);
+        int selectedColor = ContextCompat.getColor(this, R.color.yellow);
         int unselectedColor = 0xFFE0E0E0;
         int white = ContextCompat.getColor(this, R.color.white);
         int gray = 0xFFBDBDBD;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,14 +25,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtHeaderTitle"
                 app:srcCompat="@mipmap/ic_arrowback"
-                app:tint="@color/nâu" />
+                app:tint="@color/brown" />
 
             <TextView
                 android:id="@+id/txtHeaderTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Khuyến Mãi"
-                android:textColor="@color/vàng"
+                android:textColor="@color/gold"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:layout_marginStart="50dp"
@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtHeaderTitle"
                 app:srcCompat="@mipmap/img_circle"
-                app:tint="@color/đỏ" />
+                app:tint="@color/red_accent" />
 
             <ImageButton
                 android:id="@+id/btnCart"
@@ -63,7 +63,7 @@
                 app:layout_constraintStart_toStartOf="@+id/btnCartBackground"
                 app:layout_constraintTop_toTopOf="@+id/btnCartBackground"
                 app:srcCompat="@mipmap/ic_shoppingcart"
-                app:tint="@color/vàng" />
+                app:tint="@color/gold" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

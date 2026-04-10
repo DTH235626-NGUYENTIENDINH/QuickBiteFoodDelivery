@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -342,7 +342,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="20dp"
                     android:text="Đăng xuất"
-                    android:textColor="@color/đỏ"
+                    android:textColor="@color/red_accent"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -350,7 +350,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/img_bgst"
                     app:rippleColor="#32F43B2E"
 
-                    app:strokeColor="@color/đỏ"
+                    app:strokeColor="@color/red_accent"
                     app:strokeWidth="2dp" />
 
                 <TextView

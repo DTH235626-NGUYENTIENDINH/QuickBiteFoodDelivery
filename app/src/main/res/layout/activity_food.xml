@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Tìm kiếm"
-        android:textColor="@color/vàng"
+        android:textColor="@color/gold"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Món Bạn Yêu Thích"
-        android:textColor="@color/nâu"
+        android:textColor="@color/brown"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/img_circle"
-        app:tint="@color/đỏ" />
+        app:tint="@color/red_accent" />
 
     <ImageView
         android:id="@+id/imgeGiohang"
@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="@id/btnCart"
         app:layout_constraintTop_toTopOf="@id/btnCart"
         app:srcCompat="@mipmap/ic_shoppingcart"
-        app:tint="@color/vàng" />
+        app:tint="@color/gold" />
 
     <EditText
         android:id="@+id/edtSearch"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/o1"
-                android:backgroundTint="@color/vàng"
+                android:backgroundTint="@color/gold"
                 android:paddingHorizontal="25dp"
                 android:paddingVertical="8dp"
                 android:text="All"
@@ -166,6 +166,6 @@
         app:layout_constraintTop_toTopOf="@id/edtSearch"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@mipmap/ic_search"
-        app:tint="@color/nâu" />
+        app:tint="@color/brown" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

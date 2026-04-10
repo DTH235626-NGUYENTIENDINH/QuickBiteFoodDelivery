@@ -47,6 +47,10 @@
             android:hint="Email hoặc Username"
             android:paddingBottom="8dp"
             android:textSize="14sp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             app:layout_constraintTop_toBottomOf="@+id/tvLoginTitle" />
 
         <View
@@ -70,6 +74,9 @@
             android:inputType="textPassword"
             android:paddingBottom="8dp"
             android:textSize="14sp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             app:layout_constraintTop_toBottomOf="@+id/lineEmail" />
 
         <View
