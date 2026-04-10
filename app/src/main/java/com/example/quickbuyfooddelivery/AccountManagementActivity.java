@@ -32,6 +32,9 @@ public class AccountManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_management);
 
+        ImageView imgArrowBack = findViewById(R.id.btnBack);
+        imgArrowBack.setOnClickListener(v -> finish());
+
         db = new DataBaseHelper(this);
         lvAdmin = findViewById(R.id.listView);
         lvUser = findViewById(R.id.listView1);

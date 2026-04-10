@@ -44,29 +44,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/btnCartBackground"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtHeaderTitle"
+            <ImageButton
+                android:id="@+id/imgbtnspcart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="@mipmap/img_circle"
+                android:contentDescription="Gio hang"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtHeaderTitle"
-                app:srcCompat="@mipmap/img_circle"
-                app:tint="@color/red_accent" />
-
-            <ImageButton
-                android:id="@+id/btnCart"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/btnCartBackground"
-                app:layout_constraintEnd_toEndOf="@+id/btnCartBackground"
-                app:layout_constraintStart_toStartOf="@+id/btnCartBackground"
-                app:layout_constraintTop_toTopOf="@+id/btnCartBackground"
                 app:srcCompat="@mipmap/ic_shoppingcart"
-                app:tint="@color/gold" />
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

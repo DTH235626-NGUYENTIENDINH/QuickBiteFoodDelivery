@@ -1,10 +1,14 @@
 package com.example.quickbuyfooddelivery;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
+import android.widget.Button;
+import android.widget.ImageButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +19,13 @@ public class NotificationOrderActivity extends BaseActivity {
     private DataBaseHelper db;
     private int currentUserId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_order);
         db = new DataBaseHelper(this);
+
         android.content.SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
         currentUserId = sharedPreferences.getInt("user_id", -1);
         // Header actions
@@ -34,6 +40,10 @@ public class NotificationOrderActivity extends BaseActivity {
         adapter = new NotificationOrderAdapter(orderList);
         rcvNotificationOrder.setAdapter(adapter);
 
+        ImageButton spcart = findViewById(R.id.imgbtnspcart);
+        spcart.setOnClickListener(v -> {
+            startActivity(new Intent(NotificationOrderActivity.this, ShoppingCartActivity.class));
+        });
     }
 
     private void loadOrders() {

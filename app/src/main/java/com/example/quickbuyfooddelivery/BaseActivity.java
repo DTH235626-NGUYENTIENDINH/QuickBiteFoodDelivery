@@ -1,5 +1,6 @@
 package com.example.quickbuyfooddelivery;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -35,17 +36,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!this.getClass().equals(target)) {
             Intent intent = new Intent(this, target);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            overridePendingTransition(0, 0);
             startActivity(intent);
             overridePendingTransition(0, 0);
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         if (this instanceof Home) {
             showExitDialog();
         } else {
-            super.onBackPressed();
+            Intent intent = new Intent(this, Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+            overridePendingTransition(0, 0);
         }
     }
 

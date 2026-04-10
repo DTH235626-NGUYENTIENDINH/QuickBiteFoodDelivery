@@ -1,5 +1,6 @@
 package com.example.quickbuyfooddelivery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,13 +27,6 @@ public class VoucherActivity extends BaseActivity {
             // ✅ Lấy từ SQLite thay vì hardcode
             List<Voucher> list = db.getAllVouchers();
 
-            // Nếu DB chưa có voucher thì thêm mẫu
-            if (list.isEmpty()) {
-                db.addVoucher("SALE10", 10, 50000, 100000, "2025-12-31", 100);
-                db.addVoucher("GIAM25", 25, 80000, 200000, "2025-12-31", 50);
-                list = db.getAllVouchers();
-            }
-
             VoucherAdapter adapter = new VoucherAdapter(list);
             rcvVoucher.setAdapter(adapter);
         }
@@ -41,5 +35,9 @@ public class VoucherActivity extends BaseActivity {
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
         }
+        ImageButton spcart = findViewById(R.id.imgbtnspcart);
+        spcart.setOnClickListener(v -> {
+            startActivity(new Intent(VoucherActivity.this, ShoppingCartActivity.class));
+        });
     }
 }

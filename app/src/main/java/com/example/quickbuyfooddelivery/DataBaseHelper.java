@@ -117,7 +117,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         insertMenuItem(db, "Pizza Hải Sản", 55000, "PIZZA", "img_pz2");
         insertMenuItem(db, "Hamburger Gà", 28000, "HAMBURGER", "img_hbg1");
         insertMenuItem(db, "Pepsi", 15000, "DRINK", "img_pepsi");
-        
+
+        insertVoucher(db, "SALE10", 10, 50000, 100000, "2026-12-31", 100, 0);
+        insertVoucher(db, "GIAM25", 25, 80000, 200000, "2026-12-31", 50, 0);
+        insertVoucher(db, "SIEUSALE", 50, 150000, 300000, "2026-06-01", 20, 0);
+
     }
 
     private void insertMenuItem(SQLiteDatabase db, String name, int price, String category, String img) {
@@ -156,7 +160,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private void insertVoucher(SQLiteDatabase db, String code,
                             int discountPercent, double maxDiscount,
-                            double minOrder) {
+                            double minOrder, String expiryDate,
+                            int usageLimit, int usedCount) {
         ContentValues values = new ContentValues();
         values.put("code",             code);
         values.put("discount_percent", discountPercent);
@@ -182,12 +187,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put("used_count",       0);
         long result = db.insert("vouchers", null, values);
         return result != -1;
-    }
-
-    // Xóa voucher
-    public void deleteVoucher(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("vouchers", "id=?", new String[]{String.valueOf(id)});
     }
 
     // Kiểm tra voucher hợp lệ
