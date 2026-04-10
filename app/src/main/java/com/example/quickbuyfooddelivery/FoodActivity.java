@@ -144,4 +144,11 @@ public class FoodActivity extends BaseActivity {
             foodAdapter.filter(category);
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (foodAdapter != null) {
+            foodAdapter.notifyDataSetChanged();
+        }
+    }
 }

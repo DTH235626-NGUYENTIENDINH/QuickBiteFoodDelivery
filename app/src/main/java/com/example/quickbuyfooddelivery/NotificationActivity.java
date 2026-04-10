@@ -96,20 +96,23 @@ public class NotificationActivity extends BaseActivity {
         int unreadPromotionCount = 0;
         String latestOrderMsg = "Chưa có thông báo đơn hàng";
 
-        boolean hasOrderData = false;
         if (currentUserId != -1) {
             Cursor cursor = db.getUserNotifications(currentUserId);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    String title = cursor.getString(1);
-                    String message = cursor.getString(2);
-                    String type = cursor.getString(3);
-                    int isRead = cursor.getInt(5);
+                    // Index dựa trên cấu trúc bảng: 0:notif_id, 1:user_id, 2:title, 3:message, 4:type, 5:created_at, 6:is_read
+                    String title = cursor.getString(2);
+                    String message = cursor.getString(3);
+                    String type = cursor.getString(4);
+                    int isRead = cursor.getInt(6);
 
                     if ("ORDER".equals(type)) {
-                        hasOrderData = true;
+                        // Thêm vào danh sách RecyclerView "Cập nhật đơn hàng"
                         list.add(new NotificationFood1(R.mipmap.ic_launcher, title, message));
+                        
                         if (isRead == 0) unreadOrderCount++;
+                        
+                        // Lấy tin nhắn mới nhất để hiển thị ở mục "Đơn hàng" phía trên
                         if (latestOrderMsg.equals("Chưa có thông báo đơn hàng")) {
                             latestOrderMsg = message;
                         }
@@ -120,13 +123,6 @@ public class NotificationActivity extends BaseActivity {
                 cursor.close();
             }
         }
-
-        // Nếu không có dữ liệu, thêm dữ liệu mẫu để test giao diện
-        /*if (!hasOrderData) {
-            list.add(new NotificationFood1(R.mipmap.ic_launcher, "Đơn hàng thành công", "Đơn hàng Pepsi-N11T02 của bạn đã được giao thành công."));
-            list.add(new NotificationFood1(R.mipmap.ic_launcher, "Đơn hàng đã huỷ", "Đơn hàng Hamburger-H01 đã bị huỷ do hết hàng."));
-            latestOrderMsg = "Đơn hàng Pepsi-N11T02 của bạn đã được giao...";
-        }*/
 
         // --- Cập nhật giao diện ---
         TextView tvThongBaoDonHang = findViewById(R.id.tvThongBaoDonHang);

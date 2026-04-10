@@ -11,7 +11,7 @@ import java.util.List;
 
 public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherViewHolder> {
 
-    private List<Voucher> voucherList;
+    private final List<Voucher> voucherList;
 
     public VoucherAdapter(List<Voucher> voucherList) {
         this.voucherList = voucherList;
@@ -28,18 +28,26 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
     @Override
     public void onBindViewHolder(@NonNull VoucherViewHolder holder, int position) {
         Voucher v = voucherList.get(position);
-
         holder.txtTitle.setText(v.getTitle());
         holder.txtDescription.setText(v.getDescription());
-        holder.txtCode.setText(v.code);
+        holder.txtCode.setText("CODE: " + v.code);
 
-        // Trạng thái còn lượt dùng không
+        // Hiển thị trạng thái còn lượt hay không
         if (v.isAvailable()) {
-            holder.txtStatus.setText("Còn " + (v.usageLimit - v.usedCount) + " lượt");
-            holder.txtStatus.setTextColor(0xFF2E7D32);
+            // Nếu còn lượt, tính số lượt còn lại: limit - used
+            int remaining = v.usageLimit - v.usedCount;
+            // Nếu limit là 999 (giá trị mặc định bạn đặt cho "không giới hạn")
+            if (v.usageLimit >= 999) {
+                holder.txtStatus.setText("Lượt dùng: Không giới hạn");
+                holder.txtStatus.setTextColor(0xFF757575); // Màu xám
+            } else {
+                holder.txtStatus.setText("Còn " + remaining + " lượt");
+                holder.txtStatus.setTextColor(0xFF2E7D32); // Màu xanh lá (#2E7D32)
+            }
         } else {
+            // Nếu đã hết lượt
             holder.txtStatus.setText("Hết lượt");
-            holder.txtStatus.setTextColor(0xFFB71C1C);
+            holder.txtStatus.setTextColor(0xFFB71C1C); // Màu đỏ (#B71C1C)
         }
 
         // Ngày hết hạn
@@ -49,25 +57,27 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
             holder.txtExpiry.setText("Không giới hạn");
         }
 
-        // Icon mặc định
+        // Có thể thay đổi icon tùy theo loại khuyến mãi nếu cần
         holder.imgLogo.setImageResource(R.mipmap.ico_sale_nof);
     }
 
     @Override
-    public int getItemCount() { return voucherList.size(); }
+    public int getItemCount() {
+        return voucherList != null ? voucherList.size() : 0;
+    }
 
     static class VoucherViewHolder extends RecyclerView.ViewHolder {
         ImageView imgLogo;
-        TextView  txtTitle, txtDescription, txtCode, txtStatus, txtExpiry;
+        TextView txtTitle, txtDescription, txtCode, txtStatus, txtExpiry;
 
         VoucherViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgLogo        = itemView.findViewById(R.id.imgVoucherLogo);
-            txtTitle       = itemView.findViewById(R.id.txtVoucherTitle);
+            imgLogo = itemView.findViewById(R.id.imgVoucherLogo);
+            txtTitle = itemView.findViewById(R.id.txtVoucherTitle);
             txtDescription = itemView.findViewById(R.id.txtVoucherDescription);
-            txtCode        = itemView.findViewById(R.id.txtVoucherCode);
-            txtStatus      = itemView.findViewById(R.id.txtVoucherStatus);
-            txtExpiry      = itemView.findViewById(R.id.txtVoucherExpiry);
+            txtCode = itemView.findViewById(R.id.txtVoucherCode);
+            txtStatus = itemView.findViewById(R.id.txtVoucherStatus);
+            txtExpiry = itemView.findViewById(R.id.txtVoucherExpiry);
         }
     }
 }

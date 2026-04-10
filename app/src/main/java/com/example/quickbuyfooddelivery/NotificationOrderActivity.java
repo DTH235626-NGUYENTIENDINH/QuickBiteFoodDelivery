@@ -48,26 +48,30 @@ public class NotificationOrderActivity extends BaseActivity {
 
     private void loadOrders() {
         Cursor cursor = db.getUserNotifications(currentUserId);
-        while (cursor.moveToNext()) {
-            String title = cursor.getString(1);
-            String message = cursor.getString(2);
-            String type = cursor.getString(3);
-            String time = cursor.getString(4);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                // Cột 0: notif_id, Cột 1: user_id, Cột 2: title, Cột 3: message, Cột 4: type, Cột 5: created_at
+                String title = cursor.getString(2);   // Lấy title thay vì user_id
+                String message = cursor.getString(3); // Lấy message
+                String type = cursor.getString(4);    // Lấy type
+                String time = cursor.getString(5);    // Lấy created_at
 
-            // Logic tự động chọn màu: Nếu tiêu đề có chữ "huỷ" thì tô màu đỏ, còn lại màu xanh
-            int statusColor = Color.parseColor("#2ABB14"); // Mặc định màu Xanh (Thành công)
-            if (title != null && title.toLowerCase().contains("huỷ")) {
-                statusColor = Color.parseColor("#8B1E1E"); // Màu Đỏ (Huỷ)
+                // Logic tự động chọn màu: Nếu tiêu đề có chữ "huỷ" thì tô màu đỏ, còn lại màu xanh
+                int statusColor = Color.parseColor("#2ABB14"); // Mặc định màu Xanh (Thành công)
+                if (title != null && title.toLowerCase().contains("huỷ")) {
+                    statusColor = Color.parseColor("#8B1E1E"); // Màu Đỏ (Huỷ)
+                }
+                
+                // Nhét dữ liệu vào danh sách
+                orderList.add(new NotificationOrder(
+                        title,
+                        message,
+                        time,
+                        R.mipmap.ic_launcher, 
+                        statusColor
+                ));
             }
-            // Nhét dữ liệu vào danh sách
-            orderList.add(new NotificationOrder(
-                    title,
-                    message,
-                    time,
-                    R.mipmap.ic_launcher, // Có thể đổi icon tùy theo biến 'type'
-                    statusColor
-            ));
+            cursor.close();
         }
-        cursor.close();
     }
 }

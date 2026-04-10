@@ -45,7 +45,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
         edtHoTen = findViewById(R.id.editTextHoTen);
         edtSDT = findViewById(R.id.editTextSDT);
         edtDiaChi = findViewById(R.id.editTextDiaChi);
-        tvThanhTien = findViewById(R.id.tvThanhTien);
+
         if (recyclerView != null) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             cartItems = CartManager.getCartList();
@@ -65,11 +65,21 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
         if (currentUserId != -1) {
             Cursor cursor = db.getUserInfo2(currentUserId);
             if (cursor != null && cursor.moveToFirst()) {
-                String name = cursor.getString(0);
-                String phone = cursor.getString(1);
-                String address = cursor.getString(2);
+                // Lấy index của các cột theo tên để tránh lấy nhầm dữ liệu
+                int fullNameIndex = cursor.getColumnIndex("full_name");
+                int phoneIndex = cursor.getColumnIndex("phone");
+                int addressIndex = cursor.getColumnIndex("address");
+                int usernameIndex = cursor.getColumnIndex("username");
 
-                if (name != null) edtHoTen.setText(name);
+                String fullName = (fullNameIndex != -1) ? cursor.getString(fullNameIndex) : null;
+                String phone = (phoneIndex != -1) ? cursor.getString(phoneIndex) : null;
+                String address = (addressIndex != -1) ? cursor.getString(addressIndex) : null;
+                String username = (usernameIndex != -1) ? cursor.getString(usernameIndex) : null;
+
+                // Ưu tiên hiển thị Họ tên đầy đủ, nếu trống thì dùng Username
+                String displayName = (fullName != null && !fullName.isEmpty()) ? fullName : username;
+
+                if (displayName != null) edtHoTen.setText(displayName);
                 if (phone != null) edtSDT.setText(phone);
                 if (address != null) edtDiaChi.setText(address);
 
@@ -98,7 +108,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
                 }
             } else {
                 Toast.makeText(this, "Đơn hàng chưa đủ tối thiểu " + (int)selectedVoucher.getMinOrder() + "đ để dùng mã này", Toast.LENGTH_SHORT).show();
-                // Reset spinner if needed or just don't apply discount
                 discount = 0;
             }
         }
@@ -115,10 +124,8 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
         if (spinner == null) return;
 
         voucherList = new ArrayList<>();
-        // Add default option
         voucherList.add(new Voucher(-1, "Chọn mã giảm giá", 0, 0, 0));
         
-        // Load from DB
         List<Voucher> dbVouchers = db.getAllVouchers();
         voucherList.addAll(dbVouchers);
 
@@ -165,10 +172,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
             Toast.makeText(this, "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
             return;
         }
-        // 2. Lấy thông tin người nhận hàng từ các ô EditText
-        android.widget.EditText edtHoTen = findViewById(R.id.editTextHoTen);
-        android.widget.EditText edtSDT = findViewById(R.id.editTextSDT);
-        android.widget.EditText edtDiaChi = findViewById(R.id.editTextDiaChi);
 
         String hoTen = edtHoTen.getText().toString().trim();
         String sdt = edtSDT.getText().toString().trim();
@@ -179,8 +182,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
             return;
         }
 
-        // 3. Lấy thông tin đơn hàng
-        // Lấy con số tổng tiền (Cắt bỏ chữ " vnđ" và dấu phẩy để ép sang kiểu số)
         String strTongTien = tvThanhTien.getText().toString().replace(" vnđ", "").replace(",", "");
         int totalAmount = 0;
         try {
@@ -191,25 +192,22 @@ public class ShoppingCartActivity extends AppCompatActivity implements ShoppingC
 
         int voucherId = (selectedVoucher != null && selectedVoucher.getId() != -1) ? selectedVoucher.getId() : 0;
 
-        android.content.SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
         int currentUserId = sharedPreferences.getInt("user_id", -1);
 
         int orderId = db.placeOrder(currentUserId, totalAmount, voucherId, cartItems);
 
         if (orderId != -1) {
-            // 5. Lưu thông báo vào DB cho màn hình "Cái chuông"
-            String title = "Đặt hàng thành công";
+            String title = "Cập nhật đơn hàng";
             String message = "Đơn hàng #" + orderId + " trị giá " + tvThanhTien.getText().toString() + " đã được xác nhận. Đang giao đến: " + diaChi;
             db.insertNotification(currentUserId, title, message, "ORDER");
 
-            // 6. Xóa giỏ hàng trên RAM
             cartItems.clear();
             adapter.notifyDataSetChanged();
             tvThanhTien.setText("0 vnđ");
 
             Toast.makeText(this, "Chốt đơn thành công! Cảm ơn bạn.", Toast.LENGTH_LONG).show();
 
-            // (Tùy chọn) Chuyển khách về màn hình Danh sách thông báo hoặc trang chủ
             Intent intent = new Intent(ShoppingCartActivity.this, NotificationOrderActivity.class);
             startActivity(intent);
             finish();
